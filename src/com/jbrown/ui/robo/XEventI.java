@@ -1,6 +1,9 @@
 package com.jbrown.ui.robo;
 
+import java.awt.Robot;
+
 public interface XEventI {
-	Event getEvent();
+	EventE getEvent();
 	BrownSpot getBrownSpot();
+	void trigger(Robot r);
 }

@@ -2,10 +2,10 @@ package com.jbrown.ui.robo;
 
 public class XEventSequence implements XEventSequenceI {
 	private int _sequenceNo;
-	private XEvent _event;
+	private XEventI _event;
 	private long _duration;
 	
-	public XEventSequence(int sequenceNo, XEvent event, long duration) {
+	public XEventSequence(int sequenceNo, XEventI event, long duration) {
 		_sequenceNo = sequenceNo;
 		_event = event;
 		_duration = duration;
@@ -17,7 +17,7 @@ public class XEventSequence implements XEventSequenceI {
 	}
 
 	@Override
-	public XEvent getEvent() {
+	public XEventI getEvent() {
 		return _event;
 	}
 

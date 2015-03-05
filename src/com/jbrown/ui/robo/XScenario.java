@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XScenario implements XScenarioI {
-	private List<XEventSequence> _eventSequenceList;
+	private List<XEventSequenceI> _eventSequenceList;
+	private EventIndexGenerator _indexGenerator;
 	
 	public XScenario(){
-		_eventSequenceList = new ArrayList<XEventSequence>();
+		_eventSequenceList = new ArrayList<XEventSequenceI>();
+		_indexGenerator = new EventIndexGenerator();
 	}
 	
-	@Override
-	public void addEventSequence(XEventSequence sequence){
-		if(sequence == null){
-			System.out.println("...TEST ON PENDING ADD EVENT...");
-			return;
-		}
+	public void addEvent(XEventI event){
+		int index = _indexGenerator.nextEventId();
+		long delay = _indexGenerator.nextEventDelay();
+		XEventSequenceI sequence = new XEventSequence(index, event, delay);
 		_eventSequenceList.add(sequence);
 	}
 	
 	@Override
 	public XEventSequence[] getEventSequence() {
-		return null;
+		return _eventSequenceList.toArray(new XEventSequence[0]);
 	}
 	
 	@Override

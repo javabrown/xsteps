@@ -5,19 +5,28 @@ import java.awt.event.InputEvent;
 
 public abstract class XEvent implements XEventI {
 	private BrownSpot _spot;
-	private Event _event;
+	private EventE _event;
 	
-	public XEvent(BrownSpot spot){
+	public XEvent(BrownSpot spot, EventE event) {
 		_spot = spot;
-		_event = getEvent();
+		_event = event;
 	}
 
 	public BrownSpot getBrownSpot(){
 		return _spot;
 	}
 	
-	public abstract Event getEvent();
+	public void trigger(Robot r){
+		_event.trigger(r, this);
+	}
+	
+	@Override
+	public EventE getEvent() {
+		return _event;
+	}
 }
+
+
 
 class ClickRecord {
 	long delay;
