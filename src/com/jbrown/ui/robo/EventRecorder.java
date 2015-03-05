@@ -21,7 +21,7 @@ public class EventRecorder {
 		
 		recorder.doRecording();
 		int i = 0;
-		while(i <10000000){
+		while(i <2000000){
 			//dddff
 			System.out.println(i);
 			i++;
@@ -30,5 +30,7 @@ public class EventRecorder {
 		
 		EventRepeater repeater = new EventRepeater(recorder._finder.getScenario());
 		repeater.trigger(new Robot());
+		
+		System.out.println("DONE!!!!!");
 	}
 }

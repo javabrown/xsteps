@@ -14,6 +14,7 @@ public class EventRepeater {
 		for (XEventSequence seq : _xScenario.getEventSequence()) {
 			new Thread().sleep(seq.getDuration());
 			seq.getEvent().trigger(r);
+			System.out.println("seq="+seq.getSequenceNumber() + ": " + seq.getEvent());
 		}
 	}
 }
