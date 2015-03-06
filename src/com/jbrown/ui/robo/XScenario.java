@@ -12,7 +12,7 @@ public class XScenario implements XScenarioI {
 		_indexGenerator = new EventIndexGenerator();
 	}
 	
-	public void addEvent(XEventI event){
+	public void addEvent(XEventI event) {
 		int index = _indexGenerator.nextEventId();
 		long delay = _indexGenerator.nextEventDelay();
 		XEventSequenceI sequence = new XEventSequence(index, event, delay);
@@ -28,5 +28,10 @@ public class XScenario implements XScenarioI {
 	public boolean hasValidScenario() {
 		return _eventSequenceList != null && 
 				_eventSequenceList.size() > 0;
+	}
+	
+	@Override
+	public int nEvent(){
+		return _eventSequenceList.size();
 	}
 }
