@@ -24,6 +24,41 @@ public abstract class XEvent implements XEventI {
 	public EventE getEvent() {
 		return _event;
 	}
+
+	@Override
+	public String toString() {
+		return "XEvent [_spot=" + _spot + ", _event=" + _event + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((_event == null) ? 0 : _event.hashCode());
+		result = prime * result + ((_spot == null) ? 0 : _spot.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		XEvent other = (XEvent) obj;
+		if (_event != other._event)
+			return false;
+		if (_spot == null) {
+			if (other._spot != null)
+				return false;
+		} else if (!_spot.equals(other._spot))
+			return false;
+		return true;
+	}
+	
+	
 }
 
 
