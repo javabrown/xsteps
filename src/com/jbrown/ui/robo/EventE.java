@@ -17,7 +17,7 @@ public enum EventE {
 	
 	public boolean typeOf(EventE e) {
 		for (EventE event : values()) {
-			if (event.getName().equals(e.getName())) {
+			if (event.getName().equalsIgnoreCase(e.getName())) {
 				return true;
 			}
 		}
