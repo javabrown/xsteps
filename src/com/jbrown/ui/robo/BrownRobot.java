@@ -100,16 +100,60 @@ public class BrownRobot extends Robot {
 				code = KeyEvent.VK_ENTER;
 				break;
 				
+			case 13:
+				code = KeyEvent.VK_ENTER;
+				break;
+				
 			case 160:
+				code = KeyEvent.VK_SHIFT;
+				break;
+				
+			case 161:
 				code = KeyEvent.VK_SHIFT;
 				break;
 				
 			case 162:
 				code = KeyEvent.VK_CONTROL;
 				break;	
+			
+			case 163:
+				code = KeyEvent.VK_CONTROL;
+				break;	
 				
 			case 164:
 				code = KeyEvent.VK_ALT;
+				break;
+
+			case 173:
+				code = KeyEvent.VK_F1;
+				break;
+
+			case 174:
+				code = KeyEvent.VK_F2;
+				break;
+				
+			case 175:
+				code = KeyEvent.VK_F3;
+				break;
+				
+			case 177:
+				code = KeyEvent.VK_F4;
+				break;
+				
+			case 179:
+				code = KeyEvent.VK_F5;
+				break;	
+			
+			case 176:
+				code = KeyEvent.VK_F6;
+				break;
+				
+			case 170:
+				code = KeyEvent.VK_F9;
+				break;
+			
+			case 255:
+				code = KeyEvent.VK_F11;
 				break;
 				
 			case 186:
@@ -131,9 +175,17 @@ public class BrownRobot extends Robot {
 			case 190:
 				code = KeyEvent.VK_PERIOD;
 				break;
-
+				
+			case 219:
+				code = KeyEvent.VK_LEFT_PARENTHESIS;
+				break;
+								
 			case 220:
 				code = KeyEvent.VK_BACK_SPACE;
+				break;
+				
+			case 221:
+				code = KeyEvent.VK_RIGHT_PARENTHESIS;
 				break;
 				
 			case 222:
