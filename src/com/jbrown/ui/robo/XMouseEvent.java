@@ -1,6 +1,7 @@
 package com.jbrown.ui.robo;
 
 import java.awt.Robot;
+import java.awt.event.InputEvent;
 
 import de.ksquared.system.mouse.MouseEvent;
 
@@ -27,7 +28,18 @@ public class XMouseEvent extends XEvent {
 	}
 	
 	public int getButton(){
-		return _button;
+		int mouseButtonPresed = -1;
+		
+		switch(_button){
+		case 2: 
+			mouseButtonPresed = InputEvent.BUTTON1_MASK;
+			break;
+		case 4: 
+			mouseButtonPresed = InputEvent.BUTTON3_MASK;
+			break;
+		}
+		
+		return mouseButtonPresed;
 	}
 	
 	public int getButtons(){

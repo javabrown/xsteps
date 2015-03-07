@@ -12,6 +12,11 @@ public class XScenario implements XScenarioI {
 		_indexGenerator = new EventIndexGenerator();
 	}
 	
+	public void resetXScenario(){
+		_eventSequenceList.clear();
+		_indexGenerator.reset();
+	}
+	
 	public void addEvent(XEventI event) {
 		int index = _indexGenerator.nextEventId();
 		long delay = _indexGenerator.nextEventDelay();

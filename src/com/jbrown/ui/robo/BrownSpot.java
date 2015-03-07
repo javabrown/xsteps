@@ -37,7 +37,7 @@ public class BrownSpot extends Dimension {
     
 	@Override
 	public String toString() {
-		return "BrownSpot [_x=" + _x + ", _y=" + _y + ", _seed=" + _seed + "]";
+		return "Spot [x=" + _x + ", y=" + _y + "]";
 	}
 
 	@Override

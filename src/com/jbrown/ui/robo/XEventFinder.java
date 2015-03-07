@@ -22,6 +22,15 @@ public class XEventFinder implements XEventFinderI, XScenarioEntry {
 	}
 
 	@Override
+	public void resetScan() {
+		if(_xScanner.isScanRunning()){
+			_xScanner.stopScan();
+		}
+
+		_xScenario.resetXScenario();
+	}
+	
+	@Override
 	public XScenarioI getXScenarioEntry() {
 		return _xScenario;
 	}
@@ -29,5 +38,18 @@ public class XEventFinder implements XEventFinderI, XScenarioEntry {
 	@Override
 	public XScenarioI getScenario() {
 		return _xScenario;
+	}
+	
+	@Override
+	public String getSavableScanedData(){
+		XEventSequence[] seqs = _xScenario.getEventSequence();
+		
+		StringBuilder builder = new StringBuilder();
+		
+		for(XEventSequence seq : seqs){
+			builder.append(String.format("%s\n", seq));
+		}
+		
+		return builder.toString();
 	}
 }

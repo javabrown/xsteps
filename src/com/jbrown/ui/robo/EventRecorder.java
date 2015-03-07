@@ -2,7 +2,6 @@ package com.jbrown.ui.robo;
 
 import java.awt.AWTException;
 import java.awt.Robot;
-import java.awt.Toolkit;
 
 public class EventRecorder {
 	public XEventFinderI _finder;
@@ -12,25 +11,19 @@ public class EventRecorder {
 		_finder = new XEventFinder();
 	}
 	
-	public void doRecording(){
+	public void startRecording(){
 		_finder.startScan();
 	}
 	
-	public static void main(String[] args) throws InterruptedException, AWTException{
-		EventRecorder recorder = new EventRecorder();
-		
-		recorder.doRecording();
-		int i = 0;
-		while(i <2000000){
-			//dddff
-			System.out.println(i);
-			i++;
-		}
-		recorder._finder.stopScan();
-		
-		EventRepeater repeater = new EventRepeater(recorder._finder.getScenario());
-		repeater.trigger(new Robot());
-		
-		System.out.println("DONE!!!!!");
+	public void stopRecording(){
+		_finder.stopScan();
+	}
+	
+	public void resetRecording(){
+		_finder.resetScan();
+	}
+	
+	public String save(){
+		return _finder.getSavableScanedData();
 	}
 }

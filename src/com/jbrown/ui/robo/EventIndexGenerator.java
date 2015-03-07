@@ -14,6 +14,12 @@ public class EventIndexGenerator {
 		_delay = 0;
 	}
 
+	public void reset(){
+		_index = 0;
+		_lastClickOnDate = null;
+		_delay = 0;
+	}
+	
 	private long getDifference(Date startDate, Date endDate) {
 		long diff = 0;
 

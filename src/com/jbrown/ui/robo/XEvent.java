@@ -16,7 +16,7 @@ public abstract class XEvent implements XEventI {
 		return _spot;
 	}
 	
-	public void trigger(Robot r){
+	public void trigger(BrownRobot r){
 		_event.trigger(r, this);
 	}
 	
@@ -27,7 +27,7 @@ public abstract class XEvent implements XEventI {
 
 	@Override
 	public String toString() {
-		return "XEvent [_spot=" + _spot + ", _event=" + _event + "]";
+		return "XEvent [spot=" + _spot + ", event=" + _event + "]";
 	}
 
 	@Override

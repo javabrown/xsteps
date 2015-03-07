@@ -5,4 +5,5 @@ public interface XScenarioI {
 	XEventSequence[] getEventSequence();
 	boolean hasValidScenario();
 	public int nEvent();
+	public void resetXScenario();
 }

@@ -16,7 +16,12 @@ public class XEventScanner extends XSystemEventScanner implements XSystemEventSc
 	public void stopScan() {
 		super.stopListener();
 	}
-
+	
+	@Override
+	public boolean isScanRunning(){
+		return super.isScanRunning();
+	}
+	
 	@Override
 	protected XScenarioI getXScenarioEntry() {
 		return _entry.getXScenarioEntry();

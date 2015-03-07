@@ -1,6 +1,8 @@
 package com.jbrown.ui.robo;
 
 import java.awt.Robot;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
 public enum EventE {
 	MOUSE_MOVE("mouseMoved"),
@@ -16,12 +18,10 @@ public enum EventE {
 	}
 	
 	public boolean typeOf(EventE e) {
-		for (EventE event : values()) {
-			if (event.getName().equalsIgnoreCase(e.getName())) {
-				return true;
-			}
+		if (this.getName().equalsIgnoreCase(e.getName())) {
+			return true;
 		}
-		
+
 		return false;
 	}
 	
@@ -35,30 +35,32 @@ public enum EventE {
 		return null;
 	}
 	
-	public void trigger(Robot r, XEvent event){
-		if(this.typeOf(MOUSE_MOVE)){
+	public void trigger(BrownRobot r, XEvent event){
+		EventE eventE = event.getEvent();
+		
+		if(eventE.typeOf(MOUSE_MOVE)){
 			XMouseEvent mouse = ((XMouseEvent)event);
 			r.mouseMove(mouse.getX(), mouse.getY());
 			return;
 		}
 		
-		if(this.typeOf(MOUSE_PRESS)){
+		if(eventE.typeOf(MOUSE_PRESS)){
 			r.mousePress(((XMouseEvent)event).getButton());
 			return;
 		}
 		
-		if(this.typeOf(MOUSE_RELEASE)){
+		if(eventE.typeOf(MOUSE_RELEASE)){
 			r.mouseRelease(((XMouseEvent)event).getButton());
 			return;
 		}
 		
-		if(this.typeOf(KEY_PRESSED)){
-			r.keyPress( ((XKeyEvent)event).getKeyCode());
+		if(eventE.typeOf(KEY_PRESSED)){
+			r.doKeyPress(((XKeyEvent)event));
 			return;
 		}
 		
-		if(this.typeOf(KEY_RELEASE)){
-			r.keyRelease(((XKeyEvent)event).getKeyCode());
+		if(eventE.typeOf(KEY_RELEASE)){
+			r.doKeyRelease(((XKeyEvent)event));
 			return;
 		}
 	}

@@ -12,27 +12,41 @@ import de.ksquared.system.mouse.MouseEvent;
 import de.ksquared.system.mouse.MouseListener;
 
 public abstract class XSystemEventScanner { 
-	static EventRecorder _events;
+	private EventRecorder _events;
+	private GlobalKeyListener _keyListener;
+	private GlobalMouseListener _mouseListener;
+	private boolean _isScanRunning; 
 	
 	public XSystemEventScanner(){
 		_events = null;
+		_keyListener = null;
+		_mouseListener = null;
+		_isScanRunning = false;
 	}
 	
 	private void lazyInit(){
 		if(_events == null){
 			_events = new EventRecorder(this.getXScenarioEntry());
+			_keyListener = new GlobalKeyListener();
+			_mouseListener = new GlobalMouseListener();
 		}
 	}
 	
 	void startListener() {
 		this.lazyInit();
-		new GlobalKeyListener().addKeyListener(_events);
-		new GlobalMouseListener().addMouseListener(_events);
+		_keyListener.addKeyListener(_events);
+		_mouseListener.addMouseListener(_events);
+		_isScanRunning = true;
 	}
 
 	void stopListener() {
-		new GlobalKeyListener().removeKeyListener(_events);
-		new GlobalMouseListener().removeMouseListener(_events);
+		_keyListener.removeKeyListener(_events);
+		_mouseListener.removeMouseListener(_events);
+		_isScanRunning = false;
+	}
+	
+	protected boolean isScanRunning(){
+		return _isScanRunning;
 	}
 
     protected abstract XScenarioI getXScenarioEntry();
@@ -46,7 +60,7 @@ public abstract class XSystemEventScanner {
     	
 		@Override
 		public void mouseMoved(MouseEvent event) {
-			System.out.println(event);Toolkit.getDefaultToolkit().beep();
+			//System.out.println(event);Toolkit.getDefaultToolkit().beep();
 			XEventI eventI = getMouseEvent(event, EventE.MOUSE_MOVE);
 			_xScenario.addEvent(eventI);
 		}
@@ -60,21 +74,21 @@ public abstract class XSystemEventScanner {
 
 		@Override
 		public void mouseReleased(MouseEvent event) {
-			System.out.println(event);Toolkit.getDefaultToolkit().beep();
+			System.out.println(event);
 			XEventI eventI = getMouseEvent(event, EventE.MOUSE_RELEASE);
 			_xScenario.addEvent(eventI);
 		}
 
 		@Override
 		public void keyPressed(KeyEvent event) {
-			System.out.println(event);Toolkit.getDefaultToolkit().beep();
+			System.out.println(event);
 			XEventI eventI = getKeyEvent(event, EventE.KEY_PRESSED);
 			_xScenario.addEvent(eventI);
 		}
 
 		@Override
 		public void keyReleased(KeyEvent event) {
-			System.out.println(event);Toolkit.getDefaultToolkit().beep();
+			System.out.println(event);
 			XEventI eventI = getKeyEvent(event, EventE.KEY_RELEASE);
 			_xScenario.addEvent(eventI);
 		}
@@ -86,7 +100,11 @@ public abstract class XSystemEventScanner {
 		}
 		
 		private XEventI getKeyEvent(KeyEvent keyEvent, EventE eventE) {
-			XEventI xEvent = new XKeyEvent(keyEvent.getVirtualKeyCode(), eventE);
+			int keyCode = keyEvent.getVirtualKeyCode();
+ 
+			XEventI xEvent = new XKeyEvent(keyCode, keyEvent.isAltPressed(), keyEvent.isCtrlPressed(),
+					keyEvent.isShiftPressed(), eventE);
+			
 			return xEvent;
 		}
     }
