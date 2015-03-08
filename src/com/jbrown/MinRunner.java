@@ -22,9 +22,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import com.jbrown.ui.robo.BrownRobot;
-import com.jbrown.ui.robo.EventRecorder;
-import com.jbrown.ui.robo.EventRepeater;
+import com.jbrown.robo.impl.BrownRobot;
+import com.jbrown.robo.impl.EventRecorder;
+import com.jbrown.robo.impl.EventRepeater;
  
 
 public class MinRunner {
