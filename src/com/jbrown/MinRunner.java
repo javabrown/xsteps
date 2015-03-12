@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import com.jbrown.robo.XEventI;
 import com.jbrown.robo.impl.BrownRobot;
 import com.jbrown.robo.impl.EventRecorder;
 import com.jbrown.robo.impl.EventRepeater;
@@ -72,6 +73,20 @@ class WinRobo extends JFrame implements ActionListener {
 	private void initializeScanner(){
 		 recorder = new EventRecorder();
 		 repeater = new EventRepeater(recorder._finder.getScenario());
+		 
+		 Thread t = new Thread(){
+			 @Override
+			 public void run(){
+				 while(true){
+				  XEventI live = recorder.getLiveEvent();
+				  
+				  if(live!= null){
+				    System.out.println("Recorder Live = " + live);
+				  }
+				 }
+			 }
+		 };
+		 t.start();
 	}
 	
 	private void buildUI(){

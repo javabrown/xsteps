@@ -1,7 +1,11 @@
 package com.jbrown.robo.impl;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 import com.jbrown.robo.XEventI;
 import com.jbrown.robo.XEventSequenceI;

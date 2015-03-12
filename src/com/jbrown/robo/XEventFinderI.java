@@ -5,5 +5,6 @@ public interface XEventFinderI {
 	void startScan();
 	void stopScan();
 	void resetScan();
+	XEventI getLiveEvent();
 	String getSavableScanedData();
 }

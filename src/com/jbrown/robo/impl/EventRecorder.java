@@ -1,9 +1,7 @@
 package com.jbrown.robo.impl;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-
 import com.jbrown.robo.XEventFinderI;
+import com.jbrown.robo.XEventI;
 
 public class EventRecorder {
 	public XEventFinderI _finder;
@@ -23,6 +21,10 @@ public class EventRecorder {
 	
 	public void resetRecording(){
 		_finder.resetScan();
+	}
+	
+	public XEventI getLiveEvent(){
+		return _finder.getLiveEvent();
 	}
 	
 	public String save(){

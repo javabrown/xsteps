@@ -1,6 +1,7 @@
 package com.jbrown.robo.impl;
 
 import com.jbrown.robo.XEventFinderI;
+import com.jbrown.robo.XEventI;
 import com.jbrown.robo.XScenarioI;
 import com.jbrown.robo.impl.XEventScanner.XScenarioEntry;
 
@@ -37,6 +38,11 @@ public class XEventFinder implements XEventFinderI, XScenarioEntry {
 		return _xScenario;
 	}
 
+	@Override
+	public XEventI getLiveEvent(){
+		return _xScanner.getLiveEvent();
+	}
+	
 	@Override
 	public XScenarioI getScenario() {
 		return _xScenario;
