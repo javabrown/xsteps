@@ -3,7 +3,7 @@
 	  <property name="files.dir" value="files"/>
  	  
 	
-	  <property name="build-output.main" value="com.jbrown.MinRunner"/>
+	  <property name="build-output.main" value="com.jbrown.Main"/>
 	  <property name="build-output.jar" value="XStep.jar"/>
 	
 	  <path id="classpath">
