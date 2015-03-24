@@ -5,7 +5,7 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans
   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="launcher" class="com.jbrown.ui.Launcher" lazy-init="true">
+	<bean id="launcher" class="com.jbrown.ui.Launcher">
 		<property name="dimension"><ref bean="dimension" /></property>
 		<property name="xMenuBar"><ref bean="menuBar" /></property>
 		<property name="xDesktop"><ref bean="xDesk" /></property>
@@ -53,27 +53,21 @@
 	<!-- **************** XSector Defination Begin ********* -->
 	<bean id="xDesk" class="com.jbrown.ui.XDesktop">
 		<property name="middleSector">
-		    <ref bean="middleSector"/>
+		    <bean class="com.jbrown.ui.XSector"/>
 		</property>
 		<property name="eastSector">
-		    <ref bean="eastSector"/>
+		    <bean class="com.jbrown.ui.XSector"/>
 		</property>
 		<property name="westSector">
-		    <ref bean="westSector"/>
+		    <bean class="com.jbrown.ui.XSector"/>
 		</property>
 		<property name="northSector">
-		    <ref bean="northSector"/>
+		    <bean class="com.jbrown.ui.XSector"/>
 		</property>
 		<property name="southSector">
-		    <ref bean="southSector"/>
+		    <bean class="com.jbrown.ui.XSector"/>
 		</property>
 	</bean>
-	
-	<bean id="middleSector" class="com.jbrown.ui.XSector"/>
-	<bean id="eastSector" class="com.jbrown.ui.XSector"/>
-	<bean id="westSector" class="com.jbrown.ui.XSector"/>
-	<bean id="northSector" class="com.jbrown.ui.XSector"/>
-	<bean id="southSector" class="com.jbrown.ui.XSector"/>
 	<!-- **************** XSector Defination End  ********** -->
 	
 	
@@ -95,9 +89,6 @@
 				<ref bean="saveCommand" />
 				<ref bean="repeatCommand" />
 			</list>
-		</property>
-		<property name="xSector">
-		    <ref bean="southSector" />
 		</property>
 	</bean>
 	
