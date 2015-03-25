@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import com.jbrown.robo.XEventI;
 import com.jbrown.robo.impl.BrownRobot;
+import com.jbrown.robo.impl.EventE;
 import com.jbrown.robo.impl.EventRecorder;
 import com.jbrown.robo.impl.EventRepeater;
 import com.jbrown.robo.impl.XKeyEvent;
@@ -37,14 +38,16 @@ public class XStepController extends Observable{
 				  XEventI live = _recorder.getLiveEvent();
 				  
 				  if(live!= null){
-					if(live instanceof XKeyEvent){
+					if(live.getEvent().typeOf(EventE.KEY_RELEASE) | 
+							live.getEvent().typeOf(EventE.MOUSE_RELEASE)){
 						try{
 						setChanged();
 						notifyObservers(live);
 						}catch(Exception ex){ex.printStackTrace();}
+						System.out.println("Recorder Live = " + live);
 					}
 					
-				    System.out.println("Recorder Live = " + live);
+				    
 				  }
 				 }
 			 }

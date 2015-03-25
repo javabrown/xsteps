@@ -3,30 +3,36 @@ package com.jbrown.ui;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 
+import com.jbrown.robo.KeysI;
 import com.jbrown.ui.controller.XStepController;
 
 import static com.jbrown.robo.KeysI.*;
 
-public class XStepRecordAction implements XAction.XStepActions {
+public class XStepRecorderView implements XTemplate.XStepView {
 	private XEventGraph _xEventGraph;
-	private XSector _middleSector;
-	
 	private XCommand[] _commands;
+	private XSector _middleSector;
 	private XSector _commandSector;
 	
 	private XStepController _controller;
 
-	
-	public void setMiddleSector(XSector middleSector) {
-		_middleSector = middleSector;
-	}
+	private SpinnerButton _spinnerButton;
+	 
 	
 	public void setEventGraph(XEventGraph eventGraph) {
 		_xEventGraph = eventGraph;
 	}
 	
-	public void setXSector(XSector xSector) {
+	public void setMiddleSector(XSector middleSector) {
+		_middleSector = middleSector;
+	}
+	
+	public void setSouthSector(XSector xSector) {
 		_commandSector = xSector;
 	}
 
@@ -38,6 +44,13 @@ public class XStepRecordAction implements XAction.XStepActions {
 		_controller = controller;
 	}
 	
+	private void initCustomView() {
+		_spinnerButton = new SpinnerButton(KeysI.COMMAND_REPEAT_K);
+		_spinnerButton.addActionListener(this, KeysI.COMMAND_REPEAT_K);
+		
+		_commandSector.add(_spinnerButton);
+	}
+	
 	@Override
 	public void pushXView() {
 		for (XCommand act : _commands) {
@@ -46,6 +59,8 @@ public class XStepRecordAction implements XAction.XStepActions {
 			button.addActionListener(this);
 			_commandSector.add(button);
 		}
+		
+		this.initCustomView();
 		
 		_middleSector.add(_xEventGraph);
 		
@@ -83,7 +98,21 @@ public class XStepRecordAction implements XAction.XStepActions {
 		}
 
 		if (e.getActionCommand().equalsIgnoreCase(COMMAND_REPEAT_K)) {
-			_controller.execute();
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					int max = _spinnerButton.getIntValue();
+					System.out.println("MAX Repeat Scenario = " + max + " - Started !!");
+					
+					for(int i=0; i < max; i++){
+					  _controller.execute();
+					  System.out.println("Scenario #"+i+" done!!");
+					}
+					
+					System.out.println("**** [Repeat Scenario Finished !!] *****");
+				}
+			});
+			
 		}
 	}
 }

@@ -5,9 +5,11 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans
   http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="launcher" class="com.jbrown.ui.Launcher">
+	<bean id="launcher" class="com.jbrown.ui.Launcher" lazy-init="true">
 		<property name="dimension"><ref bean="dimension" /></property>
 		<property name="xMenuBar"><ref bean="menuBar" /></property>
+		<property name="xDesktop"><ref bean="xDesk" /></property>
+		<property name="xAction"><ref bean="xAction" /></property>
 	</bean>
 
 	<bean id="dimension" class="java.awt.Dimension">
@@ -46,5 +48,98 @@
 		<property name="mnemonics" value="E"/>
 	</bean>
 	<!-- ***************** Menu Section End **************** -->
+	
+	
+	<!-- **************** XSector Definition Begin ********* -->
+	<bean id="xDesk" class="com.jbrown.ui.XDesktop">
+		<property name="middleSector">
+		    <ref bean="middleSector"/>
+		</property>
+		<property name="eastSector">
+		    <ref bean="eastSector"/>
+		</property>
+		<property name="westSector">
+		    <ref bean="westSector"/>
+		</property>
+		<property name="northSector">
+		    <ref bean="northSector"/>
+		</property>
+		<property name="southSector">
+		    <ref bean="southSector"/>
+		</property>
+	</bean>
+	
+	<bean id="middleSector" class="com.jbrown.ui.XSector"/>
+	<bean id="eastSector" class="com.jbrown.ui.XSector"/>
+	<bean id="westSector" class="com.jbrown.ui.XSector"/>
+	<bean id="northSector" class="com.jbrown.ui.XSector"/>
+	<bean id="southSector" class="com.jbrown.ui.XSector"/>
+	<!-- **************** XSector Defination End  ********** -->
+	
+	
+	<!-- **************** XAction Defination Begin ********* -->
+	<bean id="xAction" class="com.jbrown.ui.XTemplate">
+		<property name="xStepViews">
+		    <list>
+		    	<ref bean="xStepScenarioRecorderView"/>
+		    </list>
+		</property>
+	</bean>
+
+	<!-- Begin-@1: xStepScenarioRecorderView   -->
+	<bean id="xStepScenarioRecorderView" class="com.jbrown.ui.XStepRecorderView"
+		lazy-init="true" init-method="pushXView">
+		<property name="xCommands">
+			<list>
+				<ref bean="recordCommand" />
+				<ref bean="saveCommand" />
+				<!-- ref bean="repeatCommand" / -->
+				<ref bean="resetCommand" />
+			</list>
+		</property>
+		
+		<property name="southSector">
+		    <ref bean="southSector" />
+		</property>
+		
+	    <property name="middleSector">
+		    <ref bean="middleSector" />
+		</property>
+		
+		<property name="eventGraph">
+		    <ref bean="xEventGraph" />
+		</property>
+		
+		<property name="xController">
+			 <bean class="com.jbrown.ui.controller.XStepController" init-method="initializeScanner"/>
+		</property>
+	</bean>  
+	
+	<bean id="recordCommand" class="com.jbrown.ui.XCommand">
+	    	<property name="command" value="Record"/>
+	    	<property name="shortcut" value="R"/>
+	</bean>
+	
+	<bean id="saveCommand" class="com.jbrown.ui.XCommand">
+	    	<property name="command" value="Save"/>
+	    	<property name="shortcut" value="S"/>
+	</bean>
+	
+	<bean id="repeatCommand" class="com.jbrown.ui.XCommand">
+	    	<property name="command" value="Repeat"/>
+	    	<property name="shortcut" value="P"/>
+	</bean>
+	<bean id="resetCommand" class="com.jbrown.ui.XCommand">
+	    	<property name="command" value="ReSet"/>
+	    	<property name="shortcut" value="E"/>
+	</bean>	
+	<!-- End-@1 -->
+	
+	<!-- Begin-@2: xEventGraph   -->
+	<bean id="xEventGraph" class="com.jbrown.ui.XEventGraph"/>
+	<!-- End-@2 -->
+	
+	<!-- **************** XAction Defination End  ********** -->
+	
 	
 </beans>
