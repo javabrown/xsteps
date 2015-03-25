@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 
 public class XMenuItem extends JMenuItem implements ActionListener {
-	private XActionI _action;
+	private XTemplateI _action;
 	
 	public XMenuItem(){
 		super();

@@ -16,7 +16,7 @@ abstract class XStepApplication extends JFrame {
 	private Dimension _dimension;
 	private XMenuBar _menuBar;
 	private XDesktop _container;
-	private XAction[] _xAction;
+	private XTemplate[] _xAction;
 
 	public XStepApplication() {
 		int state = this.getExtendedState();
@@ -69,7 +69,7 @@ abstract class XStepApplication extends JFrame {
 		_container = desktop;
 	}
 
-	public void setXAction(XAction[] xAction) {
+	public void setXAction(XTemplate[] xAction) {
 		_xAction = xAction;
 	}
 }

@@ -1,6 +1,6 @@
 package com.jbrown.ui;
 
-public class XStepAction extends XAction {
+public class XStepAction extends XTemplate {
 	private String _actionCommand;
 	
 	
