@@ -18,6 +18,6 @@ public class XAction implements XActionI {
 	}
 	
 	static interface XStepActions extends ActionListener{
-		void pushXCommand();
+		void pushXView();
 	}
 }

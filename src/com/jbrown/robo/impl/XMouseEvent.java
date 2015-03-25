@@ -3,6 +3,8 @@ package com.jbrown.robo.impl;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 
+import com.jbrown.robo.StepUtil;
+
 import de.ksquared.system.mouse.MouseEvent;
 
 public class XMouseEvent extends XEvent {
@@ -44,5 +46,10 @@ public class XMouseEvent extends XEvent {
 	
 	public int getButtons(){
 		return _buttons;
+	}
+	
+	@Override
+	public int getGraphMaskValue(){
+		return StepUtil.cantorP3(_x, _y, _button);//default graph
 	}
 }

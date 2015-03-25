@@ -1,5 +1,7 @@
 package com.jbrown.robo.impl;
 
+import com.jbrown.robo.StepUtil;
+
 public class XKeyEvent extends XEvent {
 	private int _keyCode;
 	private boolean _isAltPressed;
@@ -31,6 +33,10 @@ public class XKeyEvent extends XEvent {
 		return _isShiftPressed;
 	}
 
+	@Override
+	public int getGraphMaskValue(){
+		return _keyCode;
+	}
 	
 	@Override
 	public String toString() {

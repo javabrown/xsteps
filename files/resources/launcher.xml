@@ -50,7 +50,7 @@
 	<!-- ***************** Menu Section End **************** -->
 	
 	
-	<!-- **************** XSector Defination Begin ********* -->
+	<!-- **************** XSector Definition Begin ********* -->
 	<bean id="xDesk" class="com.jbrown.ui.XDesktop">
 		<property name="middleSector">
 		    <ref bean="middleSector"/>
@@ -88,7 +88,7 @@
 
 	<!-- Begin-@1: xStepRecordAction   -->
 	<bean id="xStepRecordAction" class="com.jbrown.ui.XStepRecordAction"
-		lazy-init="true" init-method="pushXCommand">
+		lazy-init="true" init-method="pushXView">
 		<property name="xCommands">
 			<list>
 				<ref bean="recordCommand" />
@@ -96,10 +96,23 @@
 				<ref bean="repeatCommand" />
 			</list>
 		</property>
+		
 		<property name="xSector">
 		    <ref bean="southSector" />
 		</property>
-	</bean>
+		
+	    <property name="middleSector">
+		    <ref bean="middleSector" />
+		</property>
+		
+		<property name="eventGraph">
+		    <ref bean="xEventGraph" />
+		</property>
+		
+		<property name="xController">
+			 <bean class="com.jbrown.ui.controller.XStepController" init-method="initializeScanner"/>
+		</property>
+	</bean>  
 	
 	<bean id="recordCommand" class="com.jbrown.ui.XCommand">
 	    	<property name="command" value="Record"/>
@@ -115,7 +128,15 @@
 	    	<property name="command" value="Repeat"/>
 	    	<property name="shortcut" value="P"/>
 	</bean>
+	<bean id="resetCommand" class="com.jbrown.ui.XCommand">
+	    	<property name="command" value="ReSet"/>
+	    	<property name="shortcut" value="E"/>
+	</bean>	
 	<!-- End-@1 -->
+	
+	<!-- Begin-@2: xEventGraph   -->
+	<bean id="xEventGraph" class="com.jbrown.ui.XEventGraph"/>
+	<!-- End-@2 -->
 	
 	<!-- **************** XAction Defination End  ********** -->
 	

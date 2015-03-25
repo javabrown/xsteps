@@ -3,6 +3,7 @@ package com.jbrown.robo.impl;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 
+import com.jbrown.robo.StepUtil;
 import com.jbrown.robo.XEventI;
 
 public abstract class XEvent implements XEventI {
@@ -27,6 +28,11 @@ public abstract class XEvent implements XEventI {
 		return _event;
 	}
 
+	@Override
+	public int getGraphMaskValue(){
+		return 100;//default graph
+	}
+	
 	@Override
 	public String toString() {
 		return "XEvent [spot=" + _spot + ", event=" + _event + "]";

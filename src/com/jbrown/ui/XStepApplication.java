@@ -31,10 +31,10 @@ abstract class XStepApplication extends JFrame {
 		super.setContentPane(_container);
 		
 		//=====
-	     final RealTimeWatch watch = new RealTimeWatch();
-	     RefineryUtilities.centerFrameOnScreen(this);
-	     _container.getMiddleSector().add(watch);
-	     watch.monitor();
+	    // final XEventGraph watch = new XEventGraph();
+	    // RefineryUtilities.centerFrameOnScreen(this);
+	    // _container.getMiddleSector().add(watch);
+	    // watch.startMonitor();
 		//=====
 		super.setVisible(true);
 	}

@@ -1,8 +1,12 @@
 package com.jbrown.ui;
 
-import java.awt.BorderLayout;
+import java.awt.GridLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
 
 public class XDesktop extends JPanel {
@@ -25,6 +29,7 @@ public class XDesktop extends JPanel {
 
 	public void setEastSector(XSector sector) {
 		_eastSector = sector;
+		_eastSector.setLayout(new SpringLayout());
 		this.add(_eastSector, BorderLayout.EAST);
 	}
 
