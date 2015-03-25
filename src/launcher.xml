@@ -78,16 +78,16 @@
 	
 	
 	<!-- **************** XAction Defination Begin ********* -->
-	<bean id="xAction" class="com.jbrown.ui.XAction">
+	<bean id="xAction" class="com.jbrown.ui.XTemplate">
 		<property name="xStepActions">
 		    <list>
-		    	<ref bean="xStepRecordAction"/>
+		    	<ref bean="xStepTemplate"/>
 		    </list>
 		</property>
 	</bean>
 
-	<!-- Begin-@1: xStepRecordAction   -->
-	<bean id="xStepRecordAction" class="com.jbrown.ui.XStepRecordAction"
+	<!-- Begin-@1: xStepTemplate   -->
+	<bean id="xStepTemplate" class="com.jbrown.ui.XStepRecorderTemplate"
 		lazy-init="true" init-method="pushXView">
 		<property name="xCommands">
 			<list>
@@ -97,7 +97,7 @@
 			</list>
 		</property>
 		
-		<property name="xSector">
+		<property name="southSector">
 		    <ref bean="southSector" />
 		</property>
 		

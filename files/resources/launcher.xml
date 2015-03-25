@@ -78,26 +78,27 @@
 	
 	
 	<!-- **************** XAction Defination Begin ********* -->
-	<bean id="xAction" class="com.jbrown.ui.XAction">
-		<property name="xStepActions">
+	<bean id="xAction" class="com.jbrown.ui.XTemplate">
+		<property name="xStepViews">
 		    <list>
-		    	<ref bean="xStepRecordAction"/>
+		    	<ref bean="xStepScenarioRecorderView"/>
 		    </list>
 		</property>
 	</bean>
 
-	<!-- Begin-@1: xStepRecordAction   -->
-	<bean id="xStepRecordAction" class="com.jbrown.ui.XStepRecordAction"
+	<!-- Begin-@1: xStepScenarioRecorderView   -->
+	<bean id="xStepScenarioRecorderView" class="com.jbrown.ui.XStepRecorderView"
 		lazy-init="true" init-method="pushXView">
 		<property name="xCommands">
 			<list>
 				<ref bean="recordCommand" />
 				<ref bean="saveCommand" />
-				<ref bean="repeatCommand" />
+				<!-- ref bean="repeatCommand" / -->
+				<ref bean="resetCommand" />
 			</list>
 		</property>
 		
-		<property name="xSector">
+		<property name="southSector">
 		    <ref bean="southSector" />
 		</property>
 		
