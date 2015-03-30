@@ -32,10 +32,12 @@ import com.jbrown.ui.controller.XStepController;
 import static com.jbrown.robo.KeysI.*;
 
 public class XStepRecorderView implements XTemplate.XStepView {
-//	public static void main(String[] args) {
-//		new XStepRecorderView().launchSystemTray();
-//	}
-
+	private BusyIndicator _busyIndicator;
+	
+	public XStepRecorderView(){
+		_busyIndicator = new BusyIndicator();
+	}
+	
 	private  String getFileWithUtil(String fileName) {
 		String result = "";
  
@@ -172,9 +174,11 @@ public class XStepRecorderView implements XTemplate.XStepView {
 		}
 
 		if (e.getActionCommand().equalsIgnoreCase(COMMAND_RECORD_K)) {
+			_busyIndicator.start();
 			component.setText(CAPTION_STOP_RECORDING_K);
 			component.setActionCommand(COMMAND_STOP_RECORDING_K);
 			_controller.startRecording();
+			_busyIndicator.stop();
 		}
 
 		if (e.getActionCommand().equalsIgnoreCase(COMMAND_STOP_RECORDING_K)) {

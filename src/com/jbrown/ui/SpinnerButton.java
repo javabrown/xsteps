@@ -36,7 +36,7 @@ public class SpinnerButton extends JPanel {
 		JPanel jp = new JPanel();
 		jp.setLayout(new GridLayout(1,3,2,0));
 		 
-		_model = new SpinnerNumberModel(8, 1, 12000, 1);
+		_model = new SpinnerNumberModel(1, 1, 12000, 1);
 	    _label = new JLabel(caption+" ", SwingConstants.CENTER);
 		_spinner = new JSpinner(_model);
 	    _button = new JButton("GO");
