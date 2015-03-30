@@ -69,11 +69,11 @@
 		</property>
 	</bean>
 	
-	<bean id="middleSector" class="com.jbrown.ui.XSector"/>
-	<bean id="eastSector" class="com.jbrown.ui.XSector"/>
-	<bean id="westSector" class="com.jbrown.ui.XSector"/>
-	<bean id="northSector" class="com.jbrown.ui.XSector"/>
-	<bean id="southSector" class="com.jbrown.ui.XSector"/>
+	<bean id="middleSector" class="com.jbrown.ui.XSector"><property name="XBorder" value="false"/></bean>
+	<bean id="eastSector" class="com.jbrown.ui.XSector"><property name="XBorder" value="false"/></bean>
+	<bean id="westSector" class="com.jbrown.ui.XSector"><property name="XBorder" value="false"/></bean>
+	<bean id="northSector" class="com.jbrown.ui.XSector"><property name="XBorder" value="false"/></bean>
+	<bean id="southSector" class="com.jbrown.ui.XSector"></bean>
 	<!-- **************** XSector Defination End  ********** -->
 	
 	
@@ -135,7 +135,7 @@
 	</bean>	
 	<!-- End-@1 -->
 	
-	<!-- Begin-@2: xEventGraph   -->
+	<!-- Begin-@2: xEventGraph  -->
 	<bean id="xEventGraph" class="com.jbrown.ui.XEventGraph"/>
 	<!-- End-@2 -->
 	

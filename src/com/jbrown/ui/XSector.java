@@ -4,7 +4,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
 public class XSector extends JPanel {
+	public void setXBorder(boolean flag){
+		super.setBorder(null);
+	}
 	public XSector(){
-		this.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+		super.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
+		 
 	}
 }
