@@ -3,6 +3,7 @@ package com.jbrown.ui;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
+import javax.accessibility.Accessible;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,7 +14,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.*;
 
-public class SpinnerButton extends JPanel {
+public class SpinnerButton extends JPanel implements Accessible{
 	private JLabel _label;
 	private JSpinner _spinner;
 	private JButton _button;

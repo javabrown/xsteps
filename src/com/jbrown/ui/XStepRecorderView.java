@@ -1,7 +1,9 @@
 package com.jbrown.ui;
 
 import java.awt.AWTException;
+import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
@@ -9,23 +11,21 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
 import org.apache.commons.io.IOUtils;
 
-import sun.launcher.resources.launcher;
-
+import com.jbrown.Main;
 import com.jbrown.robo.KeysI;
 import com.jbrown.ui.controller.XStepController;
 
@@ -52,57 +52,6 @@ public class XStepRecorderView implements XTemplate.XStepView {
 
 		return result;
 	}
-
-	private void launchSystemTray() {
-		if (!SystemTray.isSupported()) {
-			System.out.println("System tray is not supported !!! ");
-			return;
-		}
-
-		SystemTray systemTray = SystemTray.getSystemTray();
-
-		String path = "C:/git-repo/xsteps/src/com/jbrown/resources/brown-logo.png";// "com/jbrown/resources/icon_about.png";
-		String imgFile = getFileWithUtil("brown-logo.png");
-	 
-		// Image image = new ImageIcon(img).getImage();
-		Image image = Toolkit.getDefaultToolkit().getImage(path);
-	 
-		// popupmenu
-		PopupMenu trayPopupMenu = new PopupMenu();
-
-		// 1t menuitem for popupmenu
-		MenuItem action = new MenuItem("Action");
-		action.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Action Clicked");
-			}
-		});
-		trayPopupMenu.add(action);
-
-		// 2nd menuitem of popupmenu
-		MenuItem close = new MenuItem("Close");
-		close.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//System.exit(0);
-			}
-		});
-		trayPopupMenu.add(close);
-
-		TrayIcon trayIcon = new TrayIcon(image, "SystemTray Demo",
-				trayPopupMenu);
-		trayIcon.setImageAutoSize(true);
-
-		try {
-			systemTray.add(trayIcon);
-		} catch (AWTException awtException) {
-			awtException.printStackTrace();
-		}
-
-		System.out.println("end of main");
-
-	}// end of main
 
 	private XEventGraph _xEventGraph;
 	private XCommand[] _commands;
@@ -146,6 +95,73 @@ public class XStepRecorderView implements XTemplate.XStepView {
 		this.launchSystemTray();
 	}
   
+	private void launchSystemTray() {
+		if (!SystemTray.isSupported()) {
+			System.out.println("System tray is not supported !!! ");
+			return;
+		}
+
+		SystemTray systemTray = SystemTray.getSystemTray();
+		String path = "/icons/brown-logo.png";
+
+		URL resource =  Main.class.getResource(path);
+		Image image = Toolkit.getDefaultToolkit().getImage(resource); 
+
+		PopupMenu trayPopupMenu = new PopupMenu();
+ 
+		MenuItem record = new MenuItem(COMMAND_RECORD_K);
+		record.setActionCommand(COMMAND_RECORD_K);
+		record.addActionListener(this);
+	 
+		MenuItem reset = new MenuItem(COMMAND_RESET_K);
+		reset.setActionCommand(COMMAND_RESET_K);
+		reset.addActionListener(this);
+		
+		MenuItem save = new MenuItem(COMMAND_SAVE_K);
+		reset.setActionCommand(COMMAND_SAVE_K);
+		reset.addActionListener(this);
+
+		
+		MenuItem verify = new MenuItem(COMMAND_VERIFY_K);
+		verify.addActionListener(this);
+		verify.setActionCommand(COMMAND_VERIFY_K);
+ 		
+		MenuItem exit = new MenuItem(COMMAND_EXIT_K);
+		exit.addActionListener(this);
+		exit.setActionCommand(COMMAND_EXIT_K);
+		
+		trayPopupMenu.add(record);
+		trayPopupMenu.addSeparator();
+		trayPopupMenu.add(reset);
+		trayPopupMenu.add(save);
+		trayPopupMenu.addSeparator();
+		trayPopupMenu.add(verify);
+		trayPopupMenu.addSeparator();
+		trayPopupMenu.add(exit);
+		
+		TrayIcon trayIcon = new TrayIcon(image, "XStep Running", trayPopupMenu);
+		trayIcon.setImageAutoSize(true);
+
+		trayIcon.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					//_controller.stopRecording();
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					//_controller.stopRecording();
+				}
+		         
+		});
+		  
+		try {
+			systemTray.add(trayIcon);
+		} catch (AWTException awtException) {
+			awtException.printStackTrace();
+		}
+
+	}
 
 	@Override
 	public void pushXView() {
@@ -164,26 +180,34 @@ public class XStepRecorderView implements XTemplate.XStepView {
 		_xEventGraph.startMonitor();
 	}
 
+	private void switchAction(Object eventSource, String actionCommand, String text){
+		if(eventSource instanceof JButton){
+			JButton component = (JButton) eventSource;
+			component.setText(text);
+			component.setActionCommand(actionCommand);
+		}
+		
+		if(eventSource instanceof MenuItem){
+			MenuItem component = (MenuItem) eventSource;
+			component.setLabel(text);
+			component.setActionCommand(actionCommand);
+		}
+		
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.out.println("Event Triggered=" + e.getActionCommand());
-		JButton component = (JButton) e.getSource();
-
-		if (component == null) {
-			return;
-		}
+		Object eventSource = e.getSource();
+	  
 
 		if (e.getActionCommand().equalsIgnoreCase(COMMAND_RECORD_K)) {
-			_busyIndicator.start();
-			component.setText(CAPTION_STOP_RECORDING_K);
-			component.setActionCommand(COMMAND_STOP_RECORDING_K);
+			switchAction(eventSource, COMMAND_STOP_RECORDING_K, CAPTION_STOP_RECORDING_K);
 			_controller.startRecording();
-			_busyIndicator.stop();
 		}
 
 		if (e.getActionCommand().equalsIgnoreCase(COMMAND_STOP_RECORDING_K)) {
-			component.setText(COMMAND_RECORD_K);
-			component.setActionCommand(COMMAND_RECORD_K);
+			switchAction(eventSource, COMMAND_RECORD_K, COMMAND_RECORD_K);
 			_controller.stopRecording();
 		}
 
@@ -214,5 +238,14 @@ public class XStepRecorderView implements XTemplate.XStepView {
 			});
 
 		}
+		
+		if (e.getActionCommand().equalsIgnoreCase(COMMAND_VERIFY_K)) {
+			_controller.save();
+		}
+		
+		if (e.getActionCommand().equalsIgnoreCase(COMMAND_EXIT_K)) {
+			System.exit(0);
+		}
+		
 	}
 }

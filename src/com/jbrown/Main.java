@@ -1,14 +1,19 @@
 package com.jbrown;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.IOException;
+import java.net.URL;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 import org.springframework.context.ApplicationContext;
- 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
  
-
-
-
 import com.jbrown.ui.Launcher;
+
  
 
 public class Main {
