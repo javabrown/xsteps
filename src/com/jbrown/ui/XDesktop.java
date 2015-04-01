@@ -3,9 +3,13 @@ package com.jbrown.ui;
 import java.awt.GridLayout;
 
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+
 import javax.swing.SpringLayout;
 import javax.swing.border.EtchedBorder;
 
@@ -66,5 +70,20 @@ public class XDesktop extends JPanel {
 
 	public XSector getSouthSector() {
 		return _southSector;
+	}
+	
+	public XStepApplication getOriginApp() {
+		return (XStepApplication) SwingUtilities.getAncestorOfClass(
+				XStepApplication.class, this);
+	}
+	
+	public void show(){
+		XStepApplication app = this.getOriginApp();
+		app.setVisible(true);
+	}
+	
+	public void hide(){
+		XStepApplication app = this.getOriginApp();
+		app.setVisible(false);
 	}
 }

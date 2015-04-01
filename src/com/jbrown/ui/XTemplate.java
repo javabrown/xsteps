@@ -2,12 +2,13 @@ package com.jbrown.ui;
 
 import java.awt.event.ActionListener;
 
-public class XTemplate implements XTemplateI {
-	private XStepView[] _xStepView;
+public abstract class XTemplate implements XTemplateI {
+	//private XStepView[] _xStepView;
+	private XDesktop _xDesktop;
 	
-	public void setXStepViews(XStepView[] xStepView){
-		_xStepView = xStepView;
-	}
+	//public void setXStepViews(XStepView[] xStepView){
+	//	_xStepView = xStepView;
+	//}
 	
 	@Override
 	public void trigger() {
@@ -17,7 +18,15 @@ public class XTemplate implements XTemplateI {
 	//	_stepActions.pushXCommand();
 	}
 	
-	static interface XStepView extends ActionListener{
+	public void setXDesktop(XDesktop xDesktop){
+		_xDesktop = xDesktop;
+	}
+	
+	public final XDesktop getXDesktop(){
+		return _xDesktop;
+	}
+	
+	static interface XStepView {
 		void pushXView();
 	}
 }

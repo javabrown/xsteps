@@ -10,32 +10,24 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import org.jfree.ui.RefineryUtilities;
-
 abstract class XStepApplication extends JFrame {
 	private Dimension _dimension;
 	private XMenuBar _menuBar;
-	private XDesktop _container;
-	private XTemplate[] _xAction;
+	private XTemplate[] _xViews;
 
 	public XStepApplication() {
 		int state = this.getExtendedState();
 		state = state | this.ICONIFIED;
 		this.setExtendedState(state);
-		super.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setIcon();
+		this.setTitle("XStep - Activity Recorder");
+		super.setDefaultCloseOperation(HIDE_ON_CLOSE);
 	}
 
 	public void launch() {
 		super.setSize(_dimension);
 		super.setJMenuBar(_menuBar);
-		super.setContentPane(_container);
-		
-		//=====
-	    // final XEventGraph watch = new XEventGraph();
-	    // RefineryUtilities.centerFrameOnScreen(this);
-	    // _container.getMiddleSector().add(watch);
-	    // watch.startMonitor();
-		//=====
+		super.setContentPane(_xViews[0].getXDesktop());
 		super.setVisible(true);
 	}
 	
@@ -44,13 +36,10 @@ abstract class XStepApplication extends JFrame {
 			List<Image> icons = new ArrayList<Image>();
 
 			InputStream inputStream = this.getClass().getResourceAsStream(
-					"brown-logo.png");
+					"/icons/brown-logo.png");
 			BufferedInputStream in = new BufferedInputStream(inputStream);
 			Image image = ImageIO.read(in);
-
 			icons.add(image);
-			icons.add(image);
-
 			this.setIconImages(icons);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -65,11 +54,11 @@ abstract class XStepApplication extends JFrame {
 		_menuBar = menuBar;
 	}
 
-	public void setXDesktop(XDesktop desktop) {
-		_container = desktop;
+	public XTemplate[] getXViews() {
+		return _xViews;
 	}
 
-	public void setXAction(XTemplate[] xAction) {
-		_xAction = xAction;
+	public void setXViews(XTemplate[] xAction) {
+		_xViews = xAction;
 	}
 }

@@ -18,20 +18,34 @@ import com.jbrown.robo.impl.EventE;
 import com.jbrown.robo.impl.EventRecorder;
 import com.jbrown.robo.impl.EventRepeater;
 import com.jbrown.robo.impl.XKeyEvent;
+import com.jbrown.ui.AppDataObserver;
 
 public class XStepController extends Observable {
 	private EventRecorder _recorder;
 	private EventRepeater _repeater;
-
-	public XStepController() {
-		_recorder = null;
-		_repeater = null;
+ 
+	private AppDataObserver _appDataObserver;
+	
+//	public XStepController() {
+//		_recorder = null;
+//		_repeater = null;
+//		_appDataObserver = new AppDataObserver();
+//	}
+	 
+	public void setAppDataObserver(AppDataObserver observer){
+		_appDataObserver = observer;
 	}
-
+	
+	public AppDataObserver getAppDataObserver(){
+		return _appDataObserver;
+	}
+	
+	//launcher injected
 	private void initializeScanner() {
 		_recorder = new EventRecorder();
 		_repeater = new EventRepeater(_recorder.getXScenario());
-
+		//_appDataObserver = new AppDataObserver();
+		
 		Thread t = new Thread() {
 			@Override
 			public void run() {
@@ -86,8 +100,14 @@ public class XStepController extends Observable {
 	}
 
 	public void execute() {
+		int nRepeat = _appDataObserver.getNRepeat();
+		System.out.printf("MAX Repeat Scenario =%s Begin ", nRepeat);
+		
 		try {
-			_repeater.trigger(new BrownRobot());
+			BrownRobot robo = new BrownRobot();
+			for (int i = 0; i < nRepeat; i++) {
+				_repeater.trigger(robo);
+			}
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -95,6 +115,8 @@ public class XStepController extends Observable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		System.out.printf("**** [%s Scenario Repeat Finished !!] *****", nRepeat);
 	}
  
 	public void repeat() {
