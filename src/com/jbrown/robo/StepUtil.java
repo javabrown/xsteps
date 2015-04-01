@@ -1,5 +1,7 @@
 package com.jbrown.robo;
 
+import org.apache.commons.io.IOUtils;
+
 public class StepUtil {
 	public static int cantorP3(int a, int b, int c) {
 		int ab = doCantorPair(a, b);
@@ -43,4 +45,17 @@ public class StepUtil {
 //			System.out.println("reverse="+ s);
 //		}
 //	}
+	
+	public static String getFileWithUtil(String fileName, Class klass) {
+		String result = "";
+
+		try {
+			result = IOUtils.toString(
+					klass.getClass().getResourceAsStream(fileName), "UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 }

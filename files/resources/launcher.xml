@@ -8,15 +8,18 @@
 	<bean id="launcher" class="com.jbrown.ui.Launcher" lazy-init="true">
 		<property name="dimension"><ref bean="dimension" /></property>
 		<property name="xMenuBar"><ref bean="menuBar" /></property>
-		<property name="xDesktop"><ref bean="xDesk" /></property>
-		<property name="xAction"><ref bean="xAction" /></property>
+		<!-- property name="xDesktop"><ref bean="xDesk" /></property -->
+		<property name="xViews">
+		 	<list>
+		 		<ref bean="xStepView" />
+		 	</list>
+		</property>
 	</bean>
 
 	<bean id="dimension" class="java.awt.Dimension">
 		<constructor-arg type="int" value="800" />
 		<constructor-arg type="int" value="550" />
 	</bean>
-	
 	
 	<!-- ***************** Menu Section Begin **************** -->
 	<bean id="menuBar" class="com.jbrown.ui.XMenuBar">
@@ -51,7 +54,7 @@
 	
 	
 	<!-- **************** XSector Definition Begin ********* -->
-	<bean id="xDesk" class="com.jbrown.ui.XDesktop">
+	<bean id="xStepDesktop" class="com.jbrown.ui.XDesktop">
 		<property name="middleSector">
 		    <ref bean="middleSector"/>
 		</property>
@@ -74,45 +77,29 @@
 	<bean id="westSector" class="com.jbrown.ui.XSector"><property name="XBorder" value="false"/></bean>
 	<bean id="northSector" class="com.jbrown.ui.XSector"><property name="XBorder" value="false"/></bean>
 	<bean id="southSector" class="com.jbrown.ui.XSector"></bean>
-	<!-- **************** XSector Defination End  ********** -->
+	<!-- **************** XSector Definition End  ********** -->
 	
 	
-	<!-- **************** XAction Defination Begin ********* -->
-	<bean id="xAction" class="com.jbrown.ui.XTemplate">
-		<property name="xStepViews">
-		    <list>
-		    	<ref bean="xStepScenarioRecorderView"/>
-		    </list>
-		</property>
-	</bean>
-
-	<!-- Begin-@1: xStepScenarioRecorderView   -->
-	<bean id="xStepScenarioRecorderView" class="com.jbrown.ui.XStepRecorderView"
-		lazy-init="true" init-method="pushXView">
+	<!-- **************** XView definition Begin ********* -->
+	<!-- Begin-@1: xStepTemplate   -->
+	<bean id="xStepView" class="com.jbrown.ui.XStepRecorderView" lazy-init="true" init-method="pushXView">
 		<property name="xCommands">
 			<list>
 				<ref bean="recordCommand" />
 				<ref bean="saveCommand" />
-				<!-- ref bean="repeatCommand" / -->
-				<ref bean="resetCommand" />
+				<ref bean="repeatCommand" />
 			</list>
 		</property>
 		
-		<property name="southSector">
-		    <ref bean="southSector" />
-		</property>
+		<property name="eventGraph"><ref bean="xEventGraph" /></property>
 		
-	    <property name="middleSector">
-		    <ref bean="middleSector" />
-		</property>
+		<property name="xDesktop"><ref bean="xStepDesktop" /></property>
+	 
+		<property name="systemTray"><ref bean="systemTray" /></property>
 		
-		<property name="eventGraph">
-		    <ref bean="xEventGraph" />
-		</property>
+		<property name="eventManager"><ref bean="eventManager"/></property>
 		
-		<property name="xController">
-			 <bean class="com.jbrown.ui.controller.XStepController" init-method="initializeScanner"/>
-		</property>
+		<property name="xController"><ref bean="xController" /></property>
 	</bean>  
 	
 	<bean id="recordCommand" class="com.jbrown.ui.XCommand">
@@ -133,13 +120,26 @@
 	    	<property name="command" value="ReSet"/>
 	    	<property name="shortcut" value="E"/>
 	</bean>	
+	
+	<bean id="eventManager" class="com.jbrown.ui.XStepRecorderEventManager">
+		<constructor-arg ref="xController"/>
+	</bean>
+	
+	<bean name="systemTray" class="com.jbrown.ui.WindowsSystemTray">
+		<constructor-arg ref="eventManager"/>
+	</bean>
+	
+	<bean name="xController" class="com.jbrown.ui.controller.XStepController" lazy-init="true" init-method="initializeScanner">
+		<property name="appDataObserver"> <bean class="com.jbrown.ui.AppDataObserver"/> </property>
+	</bean>
+		
 	<!-- End-@1 -->
 	
-	<!-- Begin-@2: xEventGraph  -->
+	
+	<!-- Begin-@2: xEventGraph   -->
 	<bean id="xEventGraph" class="com.jbrown.ui.XEventGraph"/>
 	<!-- End-@2 -->
-	
-	<!-- **************** XAction Defination End  ********** -->
+	<!-- **************** XView Definition End  ********** -->
 	
 	
 </beans>
