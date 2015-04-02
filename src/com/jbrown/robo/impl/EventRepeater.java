@@ -10,16 +10,21 @@ public class EventRepeater {
 	}
 	
 	@SuppressWarnings("static-access")
-	public void trigger(BrownRobot r, boolean fastFarward) throws InterruptedException {
-		for (XEventSequence seq : _xScenario.getEventSequence()) {
-			//if(fastFarward && seq.getEvent().getEvent().typeOf(EventE.MOUSE_MOVE)){
-			//	continue;
-			//}
-			
-			new Thread().sleep(seq.getDuration());
-			seq.getEvent().trigger(r);
-			//System.out.println("seq="+seq.getSequenceNumber() + ": " + seq.getEvent());
+	public void trigger(BrownRobot r, int nRepeat, boolean fastFarward)
+			throws InterruptedException {
+		XEventSequence[] seqs = _xScenario.getEventSequence();
+		
+		System.out.printf("\nMAX Repeat Scenario =%s Begin ", nRepeat);
+		
+		for (int i = 0; i < nRepeat; i++) {
+			for (XEventSequence seq : seqs) {
+				new Thread().sleep(seq.getDuration());
+				seq.getEvent().trigger(r);
+			}
+			System.out.printf("Scenario# %s done. ", i);
 		}
+		
+		System.out.printf("\n**** [%s Scenario Repeat Finished !!] *****", nRepeat);
 	}
 	 
 }

@@ -100,25 +100,25 @@ public class XStepController extends Observable {
 	}
 
 	public void execute() {
-		int nRepeat = _appDataObserver.getNRepeat();
-		boolean fastFarward = _appDataObserver.getViewCriteria().isFastForward();
-		 
-		System.out.printf("MAX Repeat Scenario =%s Begin ", nRepeat);
-		
-		try {
-			BrownRobot robo = new BrownRobot();
-			for (int i = 0; i < nRepeat; i++) {
-				_repeater.trigger(robo, fastFarward);
+		SwingUtilities.invokeLater(new Runnable() {
+			int nRepeat = _appDataObserver.getNRepeat();
+			boolean fastFarward = _appDataObserver.getViewCriteria()
+					.isFastForward();
+			
+			@Override
+			public void run() {
+				try {
+					_repeater.trigger(new BrownRobot(), nRepeat, fastFarward);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (AWTException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (AWTException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		System.out.printf("**** [%s Scenario Repeat Finished !!] *****", nRepeat);
+
+		});
 	}
  
 	public void repeat() {
@@ -131,7 +131,8 @@ public class XStepController extends Observable {
 	
 	private final void repeatRecordedScenario() {
 		try {
-			_repeater.trigger(new BrownRobot(),  _appDataObserver.getViewCriteria().isFastForward());
+			_repeater.trigger(new BrownRobot(), _appDataObserver.getNRepeat(),
+					_appDataObserver.getViewCriteria().isFastForward());
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
