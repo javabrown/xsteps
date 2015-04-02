@@ -18,7 +18,8 @@ public class XStepRecorderView extends AbstractView {
 	private XStepController _controller;
 	private XCommand[] _commands;
 	private SpinnerButton _spinnerButton;
-	 
+	private JCheckBox _fastForwardCheck;
+	
 	public void setEventGraph(XEventGraph eventGraph) {
 		_xEventGraph = eventGraph;
 	}
@@ -35,11 +36,11 @@ public class XStepRecorderView extends AbstractView {
 		_spinnerButton = new SpinnerButton(KeysI.COMMAND_REPEAT_K);
 		_spinnerButton.addActionListener(super.getEventManager(), KeysI.COMMAND_REPEAT_K);
 		
-		JCheckBox skipMoveCheck = new JCheckBox();
+		_fastForwardCheck = new JCheckBox();
 		
 		super.getXDesktop().getSouthSector().add(_spinnerButton);
-		super.getXDesktop().getSouthSector().add(new JLabel("Fast"));
-		super.getXDesktop().getSouthSector().add(skipMoveCheck);
+		super.getXDesktop().getSouthSector().add(new JLabel(KeysI.CHECK_FAST_FORWARD_K));
+		super.getXDesktop().getSouthSector().add(_fastForwardCheck);
 		
 		this.getSystemTray().launch(super.getXDesktop());
 	}
@@ -122,10 +123,16 @@ public class XStepRecorderView extends AbstractView {
 		super.getXDesktop().getMiddleSector().add(_xEventGraph);
 
 		this.bindObservers();
+		this.bindEventListener();
 		
 		_xEventGraph.startMonitor();
 	}
 
+	private void bindEventListener(){
+		_fastForwardCheck.setName(KeysI.CHECK_FAST_FORWARD_K);
+		_fastForwardCheck.addItemListener(super.getEventManager());
+	}
+	
 	private void bindObservers(){
 		_controller.addObserver(_xEventGraph);
 		_spinnerButton.getNRepeatTracker().addObserver(_controller.getAppDataObserver());

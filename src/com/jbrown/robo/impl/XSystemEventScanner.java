@@ -1,11 +1,16 @@
 package com.jbrown.robo.impl;
 
+import java.awt.AWTEvent;
 import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
 import java.util.Deque;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 import com.jbrown.robo.XEventI;
 import com.jbrown.robo.XScenarioI;
+import com.sun.xml.internal.bind.annotation.XmlLocation;
 
 import de.ksquared.system.keyboard.GlobalKeyListener;
 import de.ksquared.system.keyboard.KeyEvent;
@@ -21,17 +26,25 @@ public abstract class XSystemEventScanner {
 	private boolean _isScanRunning; 
 	private Deque<XEventI> _liveXEventQueue;
 	
+	//Ignorable local event
+	private XStepLocalEventScanner _localEventScanner;
+	private LocalEventObserver _localEventObserver;
+	
 	public XSystemEventScanner(){
 		_events = null;
 		_keyListener = null;
 		_mouseListener = null;
 		_isScanRunning = false;
-		_liveXEventQueue = new ConcurrentLinkedDeque<XEventI>();		
+		_liveXEventQueue = new ConcurrentLinkedDeque<XEventI>();	
+		
+		_localEventScanner = new XStepLocalEventScanner();
+		_localEventObserver = new LocalEventObserver();
+		_localEventScanner.addObserver(_localEventObserver);
 	}
 	
 	private void lazyInit(){
 		if(_events == null){
-			_events = new EventRecorder(this.getXScenarioEntry());
+			_events = new EventRecorder(this.getXScenarioEntry(), _localEventObserver);
 			_keyListener = new GlobalKeyListener();
 			_mouseListener = new GlobalMouseListener();
 		}
@@ -42,12 +55,16 @@ public abstract class XSystemEventScanner {
 		_keyListener.addKeyListener(_events);
 		_mouseListener.addMouseListener(_events);
 		_isScanRunning = true;
+		
+		_localEventScanner.start(); //start ignorable local event on xstep frame
 	}
 
 	void stopListener() {
 		_keyListener.removeKeyListener(_events);
 		_mouseListener.removeMouseListener(_events);
 		_isScanRunning = false;
+		
+		_localEventScanner.stop();//stop ignorable local event on xstep frame
 	}
 	
 	protected boolean isScanRunning(){
@@ -62,12 +79,19 @@ public abstract class XSystemEventScanner {
  
     private class EventRecorder implements KeyListener, MouseListener {
     	private XScenarioI _xScenario;
+    	private LocalEventObserver _localIgnorableEvent;
     	
-    	public EventRecorder(XScenarioI xScenario){
+    	public EventRecorder(XScenarioI xScenario, LocalEventObserver ignorableEvent){
     		_xScenario = xScenario;
+    		_localIgnorableEvent = ignorableEvent;
     	}
     	
     	private void addEvent(XEventI eventI){
+    		if(_localIgnorableEvent.isLocalEvent()){ //When any event triggered on XStep UI
+    			System.out.println("Ignored Local Event Capture.");
+    			return;
+    		}
+    		
     		_xScenario.addEvent(eventI);
 			_liveXEventQueue.add(eventI);
 			//System.out.println("XScanner=" + eventI);

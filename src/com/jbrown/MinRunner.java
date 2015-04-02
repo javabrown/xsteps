@@ -152,7 +152,7 @@ class WinRobo extends JFrame implements ActionListener {
 		
 		if(e.getActionCommand() == EXECUTE){
 			try {
-				repeater.trigger(new BrownRobot());
+				repeater.trigger(new BrownRobot(), false);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

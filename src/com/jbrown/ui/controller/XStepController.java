@@ -101,12 +101,14 @@ public class XStepController extends Observable {
 
 	public void execute() {
 		int nRepeat = _appDataObserver.getNRepeat();
+		boolean fastFarward = _appDataObserver.getViewCriteria().isFastForward();
+		 
 		System.out.printf("MAX Repeat Scenario =%s Begin ", nRepeat);
 		
 		try {
 			BrownRobot robo = new BrownRobot();
 			for (int i = 0; i < nRepeat; i++) {
-				_repeater.trigger(robo);
+				_repeater.trigger(robo, fastFarward);
 			}
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
@@ -129,7 +131,7 @@ public class XStepController extends Observable {
 	
 	private final void repeatRecordedScenario() {
 		try {
-			_repeater.trigger(new BrownRobot());
+			_repeater.trigger(new BrownRobot(),  _appDataObserver.getViewCriteria().isFastForward());
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

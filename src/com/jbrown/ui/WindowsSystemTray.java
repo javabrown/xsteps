@@ -81,7 +81,6 @@ public class WindowsSystemTray {
 		save.setActionCommand(COMMAND_SAVE_K);
 		save.addActionListener(_eventManager);
 
-		
 		MenuItem verify = new MenuItem(COMMAND_VERIFY_K);
 		verify.addActionListener(_eventManager);
 		verify.setActionCommand(COMMAND_VERIFY_K);
@@ -114,8 +113,6 @@ public class WindowsSystemTray {
 			}
 		});
 
-
-		
 		try {
 			_systemTray.add(_trayIcon);
 		} catch (AWTException awtException) {

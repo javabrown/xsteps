@@ -11,9 +11,13 @@ import static com.jbrown.robo.KeysI.COMMAND_VERIFY_K;
 
 import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.SwingUtilities;
 
+import com.jbrown.robo.KeysI;
 import com.jbrown.ui.controller.XStepController;
 
 public class XStepRecorderEventManager extends AbstractEventManager {
@@ -80,5 +84,18 @@ public class XStepRecorderEventManager extends AbstractEventManager {
 			component.setActionCommand(actionCommand);
 		}
 
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		JCheckBox check = (JCheckBox)e.getSource();
+		boolean isSelected = check.isSelected();
+		
+        String name = check.getName();
+        
+        if(name.equalsIgnoreCase(KeysI.CHECK_FAST_FORWARD_K)){
+        	_controller.getAppDataObserver().getViewCriteria().setFastForward(isSelected);
+        }
+		
 	}
 }

@@ -87,7 +87,7 @@
 			<list>
 				<ref bean="recordCommand" />
 				<ref bean="saveCommand" />
-				<ref bean="repeatCommand" />
+				<ref bean="resetCommand" />
 			</list>
 		</property>
 		

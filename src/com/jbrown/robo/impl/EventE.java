@@ -35,6 +35,10 @@ public enum EventE {
 		return null;
 	}
 	
+	public boolean isFastFarwardable(){
+		return typeOf(MOUSE_MOVE);
+	}
+	
 	public void trigger(BrownRobot r, XEvent event){
 		EventE eventE = event.getEvent();
 		

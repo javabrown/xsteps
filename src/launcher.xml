@@ -87,7 +87,7 @@
 			<list>
 				<ref bean="recordCommand" />
 				<ref bean="saveCommand" />
-				<ref bean="repeatCommand" />
+				<ref bean="resetCommand" />
 			</list>
 		</property>
 		
@@ -99,9 +99,7 @@
 		
 		<property name="eventManager"><ref bean="eventManager"/></property>
 		
-		<property name="xController">
-			 <bean class="com.jbrown.ui.controller.XStepController" init-method="initializeScanner"/>
-		</property>
+		<property name="xController"><ref bean="xController" /></property>
 	</bean>  
 	
 	<bean id="recordCommand" class="com.jbrown.ui.XCommand">
@@ -131,7 +129,7 @@
 		<constructor-arg ref="eventManager"/>
 	</bean>
 	
-	<bean name="xController" class="com.jbrown.ui.controller.XStepController" init-method="initializeScanner">
+	<bean name="xController" class="com.jbrown.ui.controller.XStepController" lazy-init="true" init-method="initializeScanner">
 		<property name="appDataObserver"> <bean class="com.jbrown.ui.AppDataObserver"/> </property>
 	</bean>
 		

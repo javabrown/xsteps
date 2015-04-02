@@ -15,6 +15,7 @@ public interface KeysI {
 	String SHORTCUT_REPEAT_K = "P";
 	String SHORTCUT_RESET_K = "E";
 	
+	String CHECK_FAST_FORWARD_K = "Fast Forward";
 	
 	String CAPTION_STOP_RECORDING_K = "Stop Recording";
 }
