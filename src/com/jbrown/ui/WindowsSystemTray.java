@@ -16,6 +16,7 @@ import java.awt.TrayIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
+import java.util.Observable;
 
 import com.jbrown.Main;
 
@@ -72,7 +73,7 @@ public class WindowsSystemTray {
 		MenuItem record = new MenuItem(COMMAND_RECORD_K);
 		record.setActionCommand(COMMAND_RECORD_K);
 		record.addActionListener(_eventManager);
-	 
+		
 		MenuItem reset = new MenuItem(COMMAND_RESET_K);
 		reset.setActionCommand(COMMAND_RESET_K);
 		reset.addActionListener(_eventManager);

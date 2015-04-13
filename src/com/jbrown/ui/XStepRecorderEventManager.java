@@ -15,6 +15,7 @@ import java.awt.event.ItemEvent;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import com.jbrown.robo.KeysI;
@@ -36,6 +37,9 @@ public class XStepRecorderEventManager extends AbstractEventManager {
 			switchAction(eventSource, COMMAND_STOP_RECORDING_K,
 					CAPTION_STOP_RECORDING_K);
 			_controller.startRecording();
+			 
+			JFrame frame = (JFrame) SwingUtilities.getRoot((JButton)eventSource);
+		    frame.setVisible(false);
 		}
 
 		if (e.getActionCommand().equalsIgnoreCase(COMMAND_STOP_RECORDING_K)) {
@@ -58,6 +62,8 @@ public class XStepRecorderEventManager extends AbstractEventManager {
 					_controller.execute();
 				}
 			});
+			JFrame frame = (JFrame) SwingUtilities.getRoot((JButton)eventSource);
+		    frame.setVisible(false);
 
 		}
 
