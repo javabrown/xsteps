@@ -100,6 +100,8 @@
 		<property name="eventManager"><ref bean="eventManager"/></property>
 		
 		<property name="xController"><ref bean="xController" /></property>
+		
+		<property name="progressMonitor"><ref bean="progressUi"/></property>
 	</bean>  
 	
 	<bean id="recordCommand" class="com.jbrown.ui.XCommand">
@@ -132,7 +134,8 @@
 	<bean name="xController" class="com.jbrown.ui.controller.XStepController" lazy-init="true" init-method="initializeScanner">
 		<property name="appDataObserver"> <bean class="com.jbrown.ui.AppDataObserver"/> </property>
 	</bean>
-		
+	
+	<bean name="progressUi" class="com.jbrown.ui.Progress" />	
 	<!-- End-@1 -->
 	
 	
