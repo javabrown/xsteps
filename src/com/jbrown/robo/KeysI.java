@@ -18,4 +18,6 @@ public interface KeysI {
 	String CHECK_FAST_FORWARD_K = "Fast Forward";
 	
 	String CAPTION_STOP_RECORDING_K = "Stop Recording";
+	
+	int[] RECORDING_PAUSE_KEY_COMBINATION = new int[]{ 27, 27, 27};  //27 = Esc code
 }

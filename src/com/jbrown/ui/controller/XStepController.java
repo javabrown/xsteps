@@ -1,6 +1,7 @@
 package com.jbrown.ui.controller;
 
 import java.awt.AWTException;
+import java.awt.Toolkit;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,7 +18,6 @@ import com.jbrown.robo.impl.BrownRobot;
 import com.jbrown.robo.impl.EventE;
 import com.jbrown.robo.impl.EventRecorder;
 import com.jbrown.robo.impl.EventRepeater;
-import com.jbrown.robo.impl.XKeyEvent;
 import com.jbrown.ui.AppDataObserver;
 
 public class XStepController extends Observable {

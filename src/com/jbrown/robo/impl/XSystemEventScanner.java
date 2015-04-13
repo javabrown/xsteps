@@ -8,6 +8,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
+import sun.security.x509.KeyIdentifier;
+
+import com.jbrown.robo.KeysI;
 import com.jbrown.robo.XEventI;
 import com.jbrown.robo.XScenarioI;
 import com.sun.xml.internal.bind.annotation.XmlLocation;
@@ -86,7 +89,7 @@ public abstract class XSystemEventScanner {
     		_localIgnorableEvent = ignorableEvent;
     	}
     	
-    	private void addEvent(XEventI eventI){
+    	private void addEvent(XEventI eventI) {
     		if(_localIgnorableEvent.isLocalEvent()){ //When any event triggered on XStep UI
     			System.out.println("Ignored Local Event Capture.");
     			return;
@@ -148,47 +151,35 @@ public abstract class XSystemEventScanner {
 		}
     }
     
-//    class KeyboardEventScanner implements LowLevelEvents {
-//		@Override
-//		public XScenarioI getXEvent(final XScenarioI _xScenario) {
-//			new GlobalKeyListener().addKeyListener(new KeyAdapter() {
-//					public void keyPressed(KeyEvent event) {
-//						_xScenario.addEventSequence(null);
-//					}
-//					
-//					public void keyReleased(KeyEvent event) {
-//						_xScenario.addEventSequence(null);
-//						if(event.getVirtualKeyCode()==KeyEvent.VK_ADD && event.isCtrlPressed()){
-//							System.out.println("CTRL+ADD was just released (CTRL is still pressed)");
-//						}
-//					}
-//			});
-//			return null;
-//		}
-//    }
-//
-//    class MouseEventScanner implements LowLevelEvents {
-//		@Override
-//		public XScenarioI getXEvent(final XScenarioI _xScenario) {
-//			new GlobalMouseListener().addMouseListener(new MouseAdapter(){
-//				@Override
-//				public void mouseMoved(MouseEvent event) {
-//					_xScenario.addEventSequence(null);
-//				}
-//
-//				@Override
-//				public void mousePressed(MouseEvent event) {
-//					_xScenario.addEventSequence(null);
-//				}
-//
-//				@Override
-//				public void mouseReleased(MouseEvent event) {
-//					_xScenario.addEventSequence(null);
-//				}
-//			});
-//			return null;
-//		}
-//    }
+    
+}
+
+class PauseCommandWatcher {
+	int maxKeyCombindation;
+	int i;
+	int[] keyCombination;
+
+	public PauseCommandWatcher() {
+		i = 0;
+		maxKeyCombindation = KeysI.RECORDING_PAUSE_KEY_COMBINATION.length;
+		keyCombination = new int[maxKeyCombindation];
+	}
+
+	void addCommand(int keyCode) {
+		i++;
+		if (i > 2) {
+			i = 0;
+			keyCombination = new int[maxKeyCombindation];
+		}
+		keyCombination[i] = keyCode;
+	}
+
+	boolean isPauseCommand() {
+		boolean match = keyCombination.length == KeysI.RECORDING_PAUSE_KEY_COMBINATION.length;
+		match &= keyCombination.equals(KeysI.RECORDING_PAUSE_KEY_COMBINATION);
+
+		return match;
+	}
 }
 
 
