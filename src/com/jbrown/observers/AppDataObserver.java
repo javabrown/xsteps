@@ -1,9 +1,10 @@
-package com.jbrown.ui;
+package com.jbrown.observers;
 
 import java.util.Observable;
 import java.util.Observer;
 
 import com.jbrown.robo.impl.ViewCriteria;
+import com.jbrown.ui.SpinnerButton;
 import com.jbrown.ui.SpinnerButton.NRepeatTracker;
 
 public class AppDataObserver implements Observer {
@@ -29,6 +30,7 @@ public class AppDataObserver implements Observer {
 			_nRepeat = ((NRepeatTracker)obj).getNRepeat();
 			System.out.printf("AppDataObserver : Observerd NRepeatTracker = %s.", _nRepeat);
 		}
+		
 		else{
 			System.out.println("AppDataObserver : Unknown Observer..");
 		}

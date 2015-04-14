@@ -3,7 +3,7 @@ package com.jbrown.robo.impl;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 
-import com.jbrown.robo.StepUtil;
+import com.jbrown.util.StepUtil;
 
 import de.ksquared.system.mouse.MouseEvent;
 

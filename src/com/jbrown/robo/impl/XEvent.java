@@ -2,17 +2,20 @@ package com.jbrown.robo.impl;
 
 import java.awt.Robot;
 import java.awt.event.InputEvent;
+import java.util.Date;
 
-import com.jbrown.robo.StepUtil;
 import com.jbrown.robo.XEventI;
+import com.jbrown.util.StepUtil;
 
 public abstract class XEvent implements XEventI {
 	private BrownSpot _spot;
 	private EventE _event;
+	private Date _timestamp;
 	
 	public XEvent(BrownSpot spot, EventE event) {
 		_spot = spot;
 		_event = event;
+		_timestamp = new Date();
 	}
 
 	public BrownSpot getBrownSpot(){
@@ -32,10 +35,11 @@ public abstract class XEvent implements XEventI {
 	public int getGraphMaskValue(){
 		return 100;//default graph
 	}
-	
+
 	@Override
 	public String toString() {
-		return "XEvent [spot=" + _spot + ", event=" + _event + "]";
+		return "XEvent [_spot=" + _spot + ", _event=" + _event
+				+ ", _timestamp=" + _timestamp + "]";
 	}
 
 	@Override
@@ -44,6 +48,8 @@ public abstract class XEvent implements XEventI {
 		int result = 1;
 		result = prime * result + ((_event == null) ? 0 : _event.hashCode());
 		result = prime * result + ((_spot == null) ? 0 : _spot.hashCode());
+		result = prime * result
+				+ ((_timestamp == null) ? 0 : _timestamp.hashCode());
 		return result;
 	}
 
@@ -63,10 +69,13 @@ public abstract class XEvent implements XEventI {
 				return false;
 		} else if (!_spot.equals(other._spot))
 			return false;
+		if (_timestamp == null) {
+			if (other._timestamp != null)
+				return false;
+		} else if (!_timestamp.equals(other._timestamp))
+			return false;
 		return true;
 	}
-	
-	
 }
 
 

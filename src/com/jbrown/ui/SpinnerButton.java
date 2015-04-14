@@ -61,7 +61,7 @@ public class SpinnerButton extends JPanel implements Accessible {
 		return _tracker;
 	}
 	
-	static class NRepeatTracker extends Observable implements ChangeListener {
+	public static class NRepeatTracker extends Observable implements ChangeListener {
 		private int _nRepeat;
 		
 		public int getNRepeat(){

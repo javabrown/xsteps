@@ -130,7 +130,7 @@
 	</bean>
 	
 	<bean name="xController" class="com.jbrown.ui.controller.XStepController" lazy-init="true" init-method="initializeScanner">
-		<property name="appDataObserver"> <bean class="com.jbrown.ui.AppDataObserver"/> </property>
+		<property name="appDataObserver"> <bean class="com.jbrown.observers.AppDataObserver"/> </property>
 	</bean>
 		
 	<!-- End-@1 -->

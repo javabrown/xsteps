@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
+import com.jbrown.observers.LocalEventObserver;
 import com.jbrown.robo.KeysI;
 import com.jbrown.robo.XEventI;
 import com.jbrown.robo.XScenarioI;

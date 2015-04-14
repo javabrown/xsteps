@@ -1,4 +1,4 @@
-package com.jbrown.robo.impl;
+package com.jbrown.observers;
 
 import java.awt.AWTEvent;
 import java.util.Observable;

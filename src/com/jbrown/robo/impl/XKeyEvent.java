@@ -1,7 +1,5 @@
 package com.jbrown.robo.impl;
 
-import com.jbrown.robo.StepUtil;
-
 public class XKeyEvent extends XEvent {
 	private int _keyCode;
 	private boolean _isAltPressed;

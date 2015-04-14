@@ -13,12 +13,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import com.jbrown.observers.AppDataObserver;
 import com.jbrown.robo.XEventI;
 import com.jbrown.robo.impl.BrownRobot;
 import com.jbrown.robo.impl.EventE;
 import com.jbrown.robo.impl.EventRecorder;
 import com.jbrown.robo.impl.EventRepeater;
-import com.jbrown.ui.AppDataObserver;
 
 public class XStepController extends Observable {
 	private EventRecorder _recorder;
