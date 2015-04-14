@@ -1,5 +1,7 @@
 package com.jbrown.robo;
 
+import com.jbrown.ui.XStepOperatorCommandWatch;
+
 public interface XEventFinderI {
 	XScenarioI getScenario();
 	void startScan();
@@ -7,4 +9,5 @@ public interface XEventFinderI {
 	void resetScan();
 	XEventI getLiveEvent();
 	String getSavableScanedData();
+	XStepOperatorCommandWatch getXStepOperatorCommandWatch();
 }

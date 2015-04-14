@@ -3,6 +3,7 @@ package com.jbrown.robo.impl;
 import com.jbrown.robo.XEventFinderI;
 import com.jbrown.robo.XEventI;
 import com.jbrown.robo.XScenarioI;
+import com.jbrown.ui.XStepOperatorCommandWatch;
 
 public class EventRecorder {
 	public XEventFinderI _finder;
@@ -34,5 +35,9 @@ public class EventRecorder {
 	
 	public XScenarioI getXScenario(){
 		return _finder.getScenario();
+	}
+	
+	public XStepOperatorCommandWatch getXStepOperatorCommandWatch(){
+		return _finder.getXStepOperatorCommandWatch();
 	}
 }

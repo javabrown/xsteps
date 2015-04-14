@@ -4,6 +4,7 @@ import com.jbrown.robo.XEventFinderI;
 import com.jbrown.robo.XEventI;
 import com.jbrown.robo.XScenarioI;
 import com.jbrown.robo.impl.XEventScanner.XScenarioEntry;
+import com.jbrown.ui.XStepOperatorCommandWatch;
 
 public class XEventFinder implements XEventFinderI, XScenarioEntry {
 	private XScenarioI _xScenario;
@@ -48,6 +49,7 @@ public class XEventFinder implements XEventFinderI, XScenarioEntry {
 		return _xScenario;
 	}
 	
+	
 	@Override
 	public String getSavableScanedData(){
 		XEventSequence[] seqs = _xScenario.getEventSequence();
@@ -59,5 +61,10 @@ public class XEventFinder implements XEventFinderI, XScenarioEntry {
 		}
 		
 		return builder.toString();
+	}
+	
+	@Override
+	public XStepOperatorCommandWatch getXStepOperatorCommandWatch(){
+		return _xScanner.getXStepOperatorCommandWatch();
 	}
 }

@@ -56,7 +56,7 @@ class ScenarioRunner {
 		} catch (InterruptedException e) {
 			BrownLogger
 					.logf("Error during call of EventRepeater.executeInterval() : %s",
-							e.getStackTrace());
+							e.getMessage());
 		}
 	}
 	
