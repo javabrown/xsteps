@@ -158,7 +158,8 @@ public abstract class XSystemEventScanner {
 			int keyCode = keyEvent.getVirtualKeyCode();
 
 			XEventI xEvent = new XKeyEvent(keyCode, keyEvent.isAltPressed(),
-					keyEvent.isCtrlPressed(), keyEvent.isShiftPressed(), eventE);
+					keyEvent.isCtrlPressed(), keyEvent.isShiftPressed(),
+					new String(new char[] { (char) keyCode, }), eventE);
 
 			return xEvent;
 		}

@@ -9,4 +9,5 @@ public interface XEventI {
 	BrownSpot getBrownSpot();
 	void trigger(BrownRobot r);
 	int getGraphMaskValue();
+	boolean isIgnorableEvent();
 }

@@ -5,14 +5,16 @@ public class XKeyEvent extends XEvent {
 	private boolean _isAltPressed;
 	private boolean _isCtrlPressed;
 	private boolean _isShiftPressed;
-
+	private String _keyText;
+	
 	public XKeyEvent(int keyCode, boolean altPressed, boolean isCtrlPressed,
-			boolean isShiftPressed, EventE eventE) {
+			boolean isShiftPressed, String keyText, EventE eventE) {
 		super(new BrownSpot(-1, -1, -1), eventE);
 		_keyCode = keyCode;
 		_isAltPressed = altPressed;
 		_isCtrlPressed = isCtrlPressed;
 		_isShiftPressed = isShiftPressed;
+		_keyText = keyText;
 	}
 
 	public int getKeyCode() {
@@ -36,11 +38,16 @@ public class XKeyEvent extends XEvent {
 		return _keyCode;
 	}
 	
+	public String getKeyText() {
+		return _keyText;
+	}
+
 	@Override
 	public String toString() {
-		return "XKeyEvent [keyCode=" + _keyCode + ", isAltPressed="
-				+ _isAltPressed + ", isCtrlPressed=" + _isCtrlPressed
-				+ ", isShiftPressed=" + _isShiftPressed + "]";
+		return "XKeyEvent [_keyCode=" + _keyCode + ", _isAltPressed="
+				+ _isAltPressed + ", _isCtrlPressed=" + _isCtrlPressed
+				+ ", _isShiftPressed=" + _isShiftPressed + ", _strKeyChar="
+				+ _keyText + "]";
 	}
 
 	@Override
@@ -51,6 +58,8 @@ public class XKeyEvent extends XEvent {
 		result = prime * result + (_isCtrlPressed ? 1231 : 1237);
 		result = prime * result + (_isShiftPressed ? 1231 : 1237);
 		result = prime * result + _keyCode;
+		result = prime * result
+				+ ((_keyText == null) ? 0 : _keyText.hashCode());
 		return result;
 	}
 
@@ -71,8 +80,16 @@ public class XKeyEvent extends XEvent {
 			return false;
 		if (_keyCode != other._keyCode)
 			return false;
+		if (_keyText == null) {
+			if (other._keyText != null)
+				return false;
+		} else if (!_keyText.equals(other._keyText))
+			return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public boolean isIgnorableEvent() {
+		return false;
+	}
 }

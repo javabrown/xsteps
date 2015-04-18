@@ -1,17 +1,41 @@
 package com.jbrown.robo.impl;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.jbrown.robo.XEventI;
 import com.jbrown.robo.XEventSequenceI;
+import com.jbrown.util.BrownLogger;
 
 public class XEventSequence implements XEventSequenceI {
-	private int _sequenceNo;
-	private XEventI _event;
-	private long _duration;
+	private final int _sequenceNo;
+	private final XEventI _event;
+	private final long _duration;
 	
 	public XEventSequence(int sequenceNo, XEventI event, long duration) {
 		_sequenceNo = sequenceNo;
 		_event = event;
 		_duration = duration;
+	}
+	
+	@Override
+	public void repeat(final BrownRobot r){
+//		new Timer().schedule(new TimerTask() {
+//			
+//			@Override
+//			public void run() {
+//				_event.trigger(r);
+//			}
+//		}, _duration);
+		
+		try {
+			Thread.sleep(_duration);
+			_event.trigger(r);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	@Override

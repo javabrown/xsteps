@@ -45,20 +45,21 @@ class ScenarioRunner {
 	
 	synchronized void execute() throws InterruptedException {
 		_status = RunnerStatus.running;
-		this.executeInterval();
-		_seq.getEvent().trigger(_robo);
+		//this.executeInterval();
+		//_seq.getEvent().trigger(_robo);
+		_seq.repeat(_robo);
 		_status = RunnerStatus.complete;
 	}
 	
-	synchronized private void executeInterval() {
-		try {
-			new Thread().sleep(_seq.getDuration());
-		} catch (InterruptedException e) {
-			BrownLogger
-					.logf("Error during call of EventRepeater.executeInterval() : %s",
-							e.getMessage());
-		}
-	}
+//	synchronized private void executeInterval() {
+//		try {
+//			new Thread().sleep(_seq.getDuration());
+//		} catch (InterruptedException e) {
+//			BrownLogger
+//					.logf("Error during call of EventRepeater.executeInterval() : %s",
+//							e.getMessage());
+//		}
+//	}
 	
 	RunnerStatus getRunnerStatus(){
 		return _status;

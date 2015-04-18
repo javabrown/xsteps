@@ -87,7 +87,7 @@ public class BrownRobot extends Robot {
 		int extendedCode = key.getKeyCode();
 		
 		try {
-			//int extendedCode = key.getKeyCode(); //KeyEvent.getExtendedKeyCodeForChar(key.getKeyCode());
+			//int extendedCode = 8key.getKeyCode(); //KeyEvent.getExtendedKeyCodeForChar(key.getKeyCode());
 			//boolean isSpecialKeyAlreadyPressed = this.pressSpecialKey(key);
 			 
 			extendedCode = translateVirtualKeyCode(extendedCode);
