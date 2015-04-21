@@ -29,7 +29,7 @@ public class EventModuleTester extends JFrame implements BrownObserverI, ActionL
 	}
 	
 	public EventModuleTester() {
-		_event = new AlternativeBrownEventListener();//new PrimeBrownEventListener();	
+		_event = new PrimeBrownEventListener();	//new AlternativeBrownEventListener();
 		_xScenario = new XScenario();
 		
 		JPanel jp = new JPanel();

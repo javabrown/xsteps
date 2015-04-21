@@ -1,6 +1,11 @@
 package com.jbrown.robo;
 
 public interface KeysI {
+	String APP_LAUNCHER_K = "LAUNCHER";
+	String APP_TEST_MODULE_K = "MODULE";
+	String APP_LAUNCHER_CLASS_K = "com.jbrown.Main";
+	String APP_TEST_MODULE_CLASS_K = "com.jbrown.core.events.EventModuleTester";
+	
 	String COMMAND_RECORD_K = "Record";
 	String COMMAND_STOP_RECORDING_K = "Stop Record";
 	String COMMAND_SAVE_K = "Save";
