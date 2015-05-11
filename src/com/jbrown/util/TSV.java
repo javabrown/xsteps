@@ -1,5 +1,6 @@
 package com.jbrown.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -21,6 +22,11 @@ public class TSV {
 
 		List<String> lines = new ArrayList<String>();
 		try {
+			File file = new File(_fileName);
+			if(!file.exists()) {
+				file.createNewFile();
+			}
+			
 			lines = Files.readAllLines(Paths.get(_fileName),
 					StandardCharsets.UTF_8);
 		} catch (IOException e) {

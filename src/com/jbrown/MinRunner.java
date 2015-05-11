@@ -72,7 +72,7 @@ class WinRobo extends JFrame implements ActionListener {
 	
 	private void initializeScanner(){
 		 recorder = new EventRecorder();
-		 repeater = new EventRepeater(recorder._finder.getScenario());
+		 repeater = new EventRepeater(recorder._finder.getScenario(), null);
 		 
 		 Thread t = new Thread(){
 			 @Override

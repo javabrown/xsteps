@@ -23,190 +23,197 @@ import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 
 public class SimpleEditor extends JFrame {
+	private Action _openAction;
+	private Action _saveAction;
+	private JTextComponent _textComponent;
+	private Hashtable _actionHash;
 
-  private Action openAction = new OpenAction();
+	public static void main(String[] args) {
+		SimpleEditor editor = new SimpleEditor();
+	}
 
-  private Action saveAction = new SaveAction();
+	// Create an editor.
+	public SimpleEditor() {
+		super("XStep Tweets");
+		initComponent();
+		makeActionsPretty();
 
-  private JTextComponent textComp;
+		Container content = getContentPane();
+		content.add(_textComponent, BorderLayout.CENTER);
+		content.add(createToolBar(), BorderLayout.NORTH);
+		setJMenuBar(createMenuBar());
+		setSize(320, 240);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-  private Hashtable actionHash = new Hashtable();
+		this.setVisible(true);
+	}
 
-  public static void main(String[] args) {
-    SimpleEditor editor = new SimpleEditor();
-    editor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    editor.setVisible(true);
-  }
+	private void initComponent() {
+		_openAction = new OpenAction();
+		_saveAction = new SaveAction();
+		_actionHash = new Hashtable();
+		_textComponent = createTextComponent();
+	}
 
-  // Create an editor.
-  public SimpleEditor() {
-    super("Swing Editor");
-    textComp = createTextComponent();
-    makeActionsPretty();
+	// Create the JTextComponent subclass.
+	protected JTextComponent createTextComponent() {
+		JTextArea ta = new JTextArea();
+		ta.setLineWrap(true);
+		return ta;
+	}
 
-    Container content = getContentPane();
-    content.add(textComp, BorderLayout.CENTER);
-    content.add(createToolBar(), BorderLayout.NORTH);
-    setJMenuBar(createMenuBar());
-    setSize(320, 240);
-  }
+	// Add icons and friendly names to actions we care about.
+	protected void makeActionsPretty() {
+		Action a;
+		a = _textComponent.getActionMap().get(DefaultEditorKit.cutAction);
+		a.putValue(Action.SMALL_ICON, new ImageIcon("cut.gif"));
+		a.putValue(Action.NAME, "Cut");
 
-  // Create the JTextComponent subclass.
-  protected JTextComponent createTextComponent() {
-    JTextArea ta = new JTextArea();
-    ta.setLineWrap(true);
-    return ta;
-  }
+		a = _textComponent.getActionMap().get(DefaultEditorKit.copyAction);
+		a.putValue(Action.SMALL_ICON, new ImageIcon("copy.gif"));
+		a.putValue(Action.NAME, "Copy");
 
-  // Add icons and friendly names to actions we care about.
-  protected void makeActionsPretty() {
-    Action a;
-    a = textComp.getActionMap().get(DefaultEditorKit.cutAction);
-    a.putValue(Action.SMALL_ICON, new ImageIcon("cut.gif"));
-    a.putValue(Action.NAME, "Cut");
+		a = _textComponent.getActionMap().get(DefaultEditorKit.pasteAction);
+		a.putValue(Action.SMALL_ICON, new ImageIcon("paste.gif"));
+		a.putValue(Action.NAME, "Paste");
 
-    a = textComp.getActionMap().get(DefaultEditorKit.copyAction);
-    a.putValue(Action.SMALL_ICON, new ImageIcon("copy.gif"));
-    a.putValue(Action.NAME, "Copy");
+		a = _textComponent.getActionMap().get(DefaultEditorKit.selectAllAction);
+		a.putValue(Action.NAME, "Select All");
+	}
 
-    a = textComp.getActionMap().get(DefaultEditorKit.pasteAction);
-    a.putValue(Action.SMALL_ICON, new ImageIcon("paste.gif"));
-    a.putValue(Action.NAME, "Paste");
+	// Create a simple JToolBar with some buttons.
+	protected JToolBar createToolBar() {
+		JToolBar bar = new JToolBar();
 
-    a = textComp.getActionMap().get(DefaultEditorKit.selectAllAction);
-    a.putValue(Action.NAME, "Select All");
-  }
+		// Add simple actions for opening & saving.
+		bar.add(getOpenAction()).setText("");
+		bar.add(getSaveAction()).setText("");
+		bar.addSeparator();
 
-  // Create a simple JToolBar with some buttons.
-  protected JToolBar createToolBar() {
-    JToolBar bar = new JToolBar();
+		// Add cut/copy/paste buttons.
+		bar.add(_textComponent.getActionMap().get(DefaultEditorKit.cutAction))
+				.setText("");
+		bar.add(_textComponent.getActionMap().get(DefaultEditorKit.copyAction))
+				.setText("");
+		bar.add(_textComponent.getActionMap().get(DefaultEditorKit.pasteAction))
+				.setText("");
+		return bar;
+	}
 
-    // Add simple actions for opening & saving.
-    bar.add(getOpenAction()).setText("");
-    bar.add(getSaveAction()).setText("");
-    bar.addSeparator();
+	// Create a JMenuBar with file & edit menus.
+	protected JMenuBar createMenuBar() {
+		JMenuBar menubar = new JMenuBar();
+		JMenu file = new JMenu("File");
+		JMenu edit = new JMenu("Edit");
+		menubar.add(file);
+		menubar.add(edit);
 
-    // Add cut/copy/paste buttons.
-    bar.add(textComp.getActionMap().get(DefaultEditorKit.cutAction))
-        .setText("");
-    bar.add(textComp.getActionMap().get(DefaultEditorKit.copyAction))
-        .setText("");
-    bar.add(textComp.getActionMap().get(DefaultEditorKit.pasteAction))
-        .setText("");
-    return bar;
-  }
+		file.add(getOpenAction());
+		file.add(getSaveAction());
+		file.add(new ExitAction());
+		edit.add(_textComponent.getActionMap().get(DefaultEditorKit.cutAction));
+		edit.add(_textComponent.getActionMap().get(DefaultEditorKit.copyAction));
+		edit.add(_textComponent.getActionMap()
+				.get(DefaultEditorKit.pasteAction));
+		edit.add(_textComponent.getActionMap().get(
+				DefaultEditorKit.selectAllAction));
+		return menubar;
+	}
 
-  // Create a JMenuBar with file & edit menus.
-  protected JMenuBar createMenuBar() {
-    JMenuBar menubar = new JMenuBar();
-    JMenu file = new JMenu("File");
-    JMenu edit = new JMenu("Edit");
-    menubar.add(file);
-    menubar.add(edit);
+	// Subclass can override to use a different open action.
+	protected Action getOpenAction() {
+		return _openAction;
+	}
 
-    file.add(getOpenAction());
-    file.add(getSaveAction());
-    file.add(new ExitAction());
-    edit.add(textComp.getActionMap().get(DefaultEditorKit.cutAction));
-    edit.add(textComp.getActionMap().get(DefaultEditorKit.copyAction));
-    edit.add(textComp.getActionMap().get(DefaultEditorKit.pasteAction));
-    edit.add(textComp.getActionMap().get(DefaultEditorKit.selectAllAction));
-    return menubar;
-  }
+	// Subclass can override to use a different save action.
+	protected Action getSaveAction() {
+		return _saveAction;
+	}
 
-  // Subclass can override to use a different open action.
-  protected Action getOpenAction() {
-    return openAction;
-  }
+	protected JTextComponent getTextComponent() {
+		return _textComponent;
+	}
 
-  // Subclass can override to use a different save action.
-  protected Action getSaveAction() {
-    return saveAction;
-  }
+	// ********** ACTION INNER CLASSES ********** //
 
-  protected JTextComponent getTextComponent() {
-    return textComp;
-  }
+	// A very simple exit action
+	public class ExitAction extends AbstractAction {
+		public ExitAction() {
+			super("Exit");
+		}
 
-  // ********** ACTION INNER CLASSES ********** //
+		public void actionPerformed(ActionEvent ev) {
+			System.exit(0);
+		}
+	}
 
-  // A very simple exit action
-  public class ExitAction extends AbstractAction {
-    public ExitAction() {
-      super("Exit");
-    }
+	// An action that opens an existing file
+	class OpenAction extends AbstractAction {
+		public OpenAction() {
+			super("Open", new ImageIcon("resources/icons/open.gif"));
+		}
 
-    public void actionPerformed(ActionEvent ev) {
-      System.exit(0);
-    }
-  }
+		public void actionPerformed(ActionEvent ev) {
+			JFileChooser chooser = new JFileChooser();
+			if (chooser.showOpenDialog(SimpleEditor.this) != JFileChooser.APPROVE_OPTION)
+				return;
+			File file = chooser.getSelectedFile();
+			if (file == null) {
+				return;
+			}
 
-  // An action that opens an existing file
-  class OpenAction extends AbstractAction {
-    public OpenAction() {
-      super("Open", new ImageIcon("icons/open.gif"));
-    }
+			this.read(file);
+		}
 
-    // Query user for a filename and attempt to open and read the file into
-    // the
-    // text component.
-    public void actionPerformed(ActionEvent ev) {
-      JFileChooser chooser = new JFileChooser();
-      if (chooser.showOpenDialog(SimpleEditor.this) != JFileChooser.APPROVE_OPTION)
-        return;
-      File file = chooser.getSelectedFile();
-      if (file == null)
-        return;
+		public void read(File file) {
+			FileReader reader = null;
+			try {
+				reader = new FileReader(file);
+				_textComponent.read(reader, null);
+			} catch (IOException ex) {
+				JOptionPane.showMessageDialog(SimpleEditor.this,
+						"File Not Found", "ERROR", JOptionPane.ERROR_MESSAGE);
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch (IOException x) {
+					}
+				}
+			}
+		}
+	}
 
-      FileReader reader = null;
-      try {
-        reader = new FileReader(file);
-        textComp.read(reader, null);
-      } catch (IOException ex) {
-        JOptionPane.showMessageDialog(SimpleEditor.this,
-            "File Not Found", "ERROR", JOptionPane.ERROR_MESSAGE);
-      } finally {
-        if (reader != null) {
-          try {
-            reader.close();
-          } catch (IOException x) {
-          }
-        }
-      }
-    }
-  }
+	class SaveAction extends AbstractAction {
+		public SaveAction() {
+			super("Save", new ImageIcon("icons/save.png"));
+		}
 
-  // An action that saves the document to a file
-  class SaveAction extends AbstractAction {
-    public SaveAction() {
-      super("Save", new ImageIcon("icons/save.gif"));
-    }
+		// Query user for a filename and attempt to open and write the text
+		// component's content to the file.
+		public void actionPerformed(ActionEvent ev) {
+			JFileChooser chooser = new JFileChooser();
+			if (chooser.showSaveDialog(SimpleEditor.this) != JFileChooser.APPROVE_OPTION)
+				return;
+			File file = chooser.getSelectedFile();
+			if (file == null)
+				return;
 
-    // Query user for a filename and attempt to open and write the text
-    // component's content to the file.
-    public void actionPerformed(ActionEvent ev) {
-      JFileChooser chooser = new JFileChooser();
-      if (chooser.showSaveDialog(SimpleEditor.this) != JFileChooser.APPROVE_OPTION)
-        return;
-      File file = chooser.getSelectedFile();
-      if (file == null)
-        return;
-
-      FileWriter writer = null;
-      try {
-        writer = new FileWriter(file);
-        textComp.write(writer);
-      } catch (IOException ex) {
-        JOptionPane.showMessageDialog(SimpleEditor.this,
-            "File Not Saved", "ERROR", JOptionPane.ERROR_MESSAGE);
-      } finally {
-        if (writer != null) {
-          try {
-            writer.close();
-          } catch (IOException x) {
-          }
-        }
-      }
-    }
-  }
+			FileWriter writer = null;
+			try {
+				writer = new FileWriter(file);
+				_textComponent.write(writer);
+			} catch (IOException ex) {
+				JOptionPane.showMessageDialog(SimpleEditor.this,
+						"File Not Saved", "ERROR", JOptionPane.ERROR_MESSAGE);
+			} finally {
+				if (writer != null) {
+					try {
+						writer.close();
+					} catch (IOException x) {
+					}
+				}
+			}
+		}
+	}
 }
