@@ -83,7 +83,7 @@ public class EventModuleTester extends JFrame implements BrownObserverI, ActionL
 			
 			
 			if(r != null &&_xScenario.hasValidScenario()){
-				EventRepeater rp = new EventRepeater(_xScenario);
+				EventRepeater rp = new EventRepeater(_xScenario, null);
 				try {
 					rp.trigger(r, 1, false);
 				} catch (InterruptedException e1) {

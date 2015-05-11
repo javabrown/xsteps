@@ -5,12 +5,8 @@ import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
 import java.util.Observable;
-import java.util.Observer;
-
 import com.jbrown.observers.BrownObserverI;
-import com.jbrown.robo.KeysI;
 import com.jbrown.robo.XEventI;
 import com.jbrown.util.BrownLogger;
 import com.jbrown.util.BrownProps;

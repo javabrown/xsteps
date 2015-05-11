@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import com.jbrown.core.activity.ActivityI;
 import com.jbrown.observers.AppDataObserver;
 import com.jbrown.robo.XEventI;
 import com.jbrown.robo.impl.BrownRobot;
@@ -25,6 +26,7 @@ public class XStepController extends Observable {
 	private EventRepeater _repeater;
  
 	private AppDataObserver _appDataObserver;
+	private ActivityI _activity;
 	
 //	public XStepController() {
 //		_recorder = null;
@@ -40,10 +42,19 @@ public class XStepController extends Observable {
 		return _appDataObserver;
 	}
 	
+	public void setActivity(ActivityI activity){
+		_activity = activity;
+	}
+	
+	public ActivityI getActivity(){
+		return _activity;
+	}
+	
+	
 	//launcher injected
 	private void initializeScanner() {
 		_recorder = new EventRecorder();
-		_repeater = new EventRepeater(_recorder.getXScenario());
+		_repeater = new EventRepeater(_recorder.getXScenario(), this.getActivity());
 		//_appDataObserver = new AppDataObserver();
 		
 		Thread t = new Thread() {

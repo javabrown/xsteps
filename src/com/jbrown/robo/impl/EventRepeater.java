@@ -2,6 +2,8 @@ package com.jbrown.robo.impl;
 
 import org.apache.log4j.Logger;
 
+import com.jbrown.core.activity.ActivityI;
+import com.jbrown.core.activity.TweetActivity;
 import com.jbrown.robo.XScenarioI;
 import com.jbrown.util.BrownLogger;
 
@@ -9,9 +11,11 @@ public class EventRepeater {
 	static Logger _logger = Logger.getLogger(EventRepeater.class);
 	
 	private XScenarioI _xScenario;
+	private ActivityI _clipActivity;
 	
-	public EventRepeater(XScenarioI xScenarioI){
+	public EventRepeater(XScenarioI xScenarioI, ActivityI clipActivity){
 		_xScenario = xScenarioI;
+		_clipActivity  = clipActivity;
 	}
 	
 	@SuppressWarnings("static-access")
@@ -22,9 +26,12 @@ public class EventRepeater {
 		System.out.printf("\nMAX Repeat Scenario =%s Begin ", nRepeat);
 		
 		for (int i = 0; i < nRepeat; i++) {
+			_clipActivity.prepareNextClipContent();
+			
 			for (XEventSequence seq : seqs) {
 				new ScenarioRunner(seq, r).execute();
 			}
+			
 			System.out.printf("Scenario# %s done. ", i);
 		}
 		
