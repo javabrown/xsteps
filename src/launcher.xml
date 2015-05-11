@@ -131,8 +131,12 @@
 	
 	<bean name="xController" class="com.jbrown.ui.controller.XStepController" lazy-init="true" init-method="initializeScanner">
 		<property name="appDataObserver"> <bean class="com.jbrown.observers.AppDataObserver"/> </property>
+		<property name="activity"> <ref bean="activity" /> </property>
 	</bean>
 		
+	<bean name="activity" class="com.jbrown.core.activity.TweetActivity">
+		<constructor-arg index="0" value="c:/test/tweets.tsv"/>
+	</bean>
 	<!-- End-@1 -->
 	
 	
