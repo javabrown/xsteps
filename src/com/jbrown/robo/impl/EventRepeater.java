@@ -21,6 +21,7 @@ public class EventRepeater {
 	@SuppressWarnings("static-access")
 	public void trigger(BrownRobot r, int nRepeat, boolean fastFarward)
 			throws InterruptedException {
+		_clipActivity.reload();
 		XEventSequence[] seqs = _xScenario.getEventSequence();
 		
 		System.out.printf("\nMAX Repeat Scenario =%s Begin ", nRepeat);

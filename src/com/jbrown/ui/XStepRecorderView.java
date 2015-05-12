@@ -2,28 +2,38 @@ package com.jbrown.ui;
 
 import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
 import com.jbrown.robo.KeysI;
 import com.jbrown.ui.controller.XStepController;
+import com.jbrown.util.TSV;
 
 import static com.jbrown.robo.KeysI.*;
 
 public class XStepRecorderView extends AbstractView {
 	//private BusyIndicator _busyIndicator;
 	private XEventGraph _xEventGraph;
+	private FileEditor _fileEditor;
+	
 	private XStepController _controller;
 	private XCommand[] _commands;
 	private SpinnerButton _spinnerButton;
 	private JCheckBox _fastForwardCheck;
+	private JTabbedPane _tabbedPane;
 	
 	public void setEventGraph(XEventGraph eventGraph) {
 		_xEventGraph = eventGraph;
 	}
 
+	public void setFileEditor(FileEditor fileEditor) {
+		_fileEditor = fileEditor;
+	}
+	
 	public void setXCommands(XCommand[] commands) {
 		_commands = commands;
 	}
@@ -119,8 +129,12 @@ public class XStepRecorderView extends AbstractView {
 		}
 
 		this.initCustomView();
-
-		super.getXDesktop().getMiddleSector().add(_xEventGraph);
+		
+		_tabbedPane = new JTabbedPane();
+		_tabbedPane.add("EventGraph", _xEventGraph);
+		_tabbedPane.add("Clipboard Queue", _fileEditor);
+		
+		super.getXDesktop().getMiddleSector().add(_tabbedPane);
 
 		this.bindObservers();
 		this.bindEventListener();

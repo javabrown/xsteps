@@ -36,6 +36,7 @@ public class XStepRecorderEventManager extends AbstractEventManager {
 		if (e.getActionCommand().equalsIgnoreCase(COMMAND_RECORD_K)) {
 			switchAction(eventSource, COMMAND_STOP_RECORDING_K,
 					CAPTION_STOP_RECORDING_K);
+			_controller.reset();
 			_controller.startRecording();
 			 
 			JFrame frame = (JFrame) SwingUtilities.getRoot((JButton)eventSource);

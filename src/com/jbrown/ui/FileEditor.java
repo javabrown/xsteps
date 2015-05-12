@@ -2,6 +2,8 @@ package com.jbrown.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileReader;
@@ -14,45 +16,59 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 
-public class SimpleEditor extends JFrame {
+public class FileEditor extends JPanel {
+	static String DEFAULT_FILE = "c:/test/tweets.tsv";
+	
 	private Action _openAction;
 	private Action _saveAction;
 	private JTextComponent _textComponent;
 	private Hashtable _actionHash;
-
+	
 	public static void main(String[] args) {
-		SimpleEditor editor = new SimpleEditor();
+		FileEditor editor = new FileEditor();
+		
+		JFrame frame = new JFrame();
+		frame.getContentPane().setLayout(new BorderLayout());
+		frame.getContentPane().add(editor, BorderLayout.CENTER);
+		frame.setDefaultCloseOperation(3);
+		frame.setVisible(true);
 	}
 
 	// Create an editor.
-	public SimpleEditor() {
-		super("XStep Tweets");
+	public FileEditor() {
+		
 		initComponent();
 		makeActionsPretty();
 
-		Container content = getContentPane();
-		content.add(_textComponent, BorderLayout.CENTER);
-		content.add(createToolBar(), BorderLayout.NORTH);
-		setJMenuBar(createMenuBar());
-		setSize(320, 240);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLayout(new BorderLayout());
+		 
+		this.add(_textComponent, BorderLayout.CENTER);
+		//content.add(createToolBar(), BorderLayout.NORTH);
+		//setJMenuBar(createMenuBar());
+		this.add(createMenuBar(), BorderLayout.NORTH);
+		
+		//setSize(320, 240);
+		//this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		this.setVisible(true);
+		//this.setVisible(true);
 	}
 
 	private void initComponent() {
+		_textComponent = createTextComponent();
 		_openAction = new OpenAction();
 		_saveAction = new SaveAction();
 		_actionHash = new Hashtable();
-		_textComponent = createTextComponent();
 	}
 
 	// Create the JTextComponent subclass.
@@ -101,13 +117,15 @@ public class SimpleEditor extends JFrame {
 	}
 
 	// Create a JMenuBar with file & edit menus.
-	protected JMenuBar createMenuBar() {
+	protected JPanel createMenuBar() {
 		JMenuBar menubar = new JMenuBar();
+		
 		JMenu file = new JMenu("File");
 		JMenu edit = new JMenu("Edit");
 		menubar.add(file);
 		menubar.add(edit);
-
+		 
+		
 		file.add(getOpenAction());
 		file.add(getSaveAction());
 		file.add(new ExitAction());
@@ -117,7 +135,15 @@ public class SimpleEditor extends JFrame {
 				.get(DefaultEditorKit.pasteAction));
 		edit.add(_textComponent.getActionMap().get(
 				DefaultEditorKit.selectAllAction));
-		return menubar;
+		
+
+		JPanel jp = new JPanel();
+		jp.setLayout(new GridLayout(2, 1, 2, 5));
+		jp.add(menubar);
+		jp.add(new JTextField("c:\test\tweets.tsv"));
+		
+		
+		return jp;//menubar;
 	}
 
 	// Subclass can override to use a different open action.
@@ -150,12 +176,26 @@ public class SimpleEditor extends JFrame {
 	// An action that opens an existing file
 	class OpenAction extends AbstractAction {
 		public OpenAction() {
-			super("Open", new ImageIcon("resources/icons/open.gif"));
+			super("Open", new ImageIcon("icons/open.gif"));
+			readDefaultFileOnLoad();
+		}
+		
+		private void readDefaultFileOnLoad(){
+			File defaultFile = new File(DEFAULT_FILE);
+			if(!defaultFile.exists()) {
+				try {
+					defaultFile.createNewFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} 
+			
+			this.read(defaultFile);
 		}
 
 		public void actionPerformed(ActionEvent ev) {
-			JFileChooser chooser = new JFileChooser();
-			if (chooser.showOpenDialog(SimpleEditor.this) != JFileChooser.APPROVE_OPTION)
+			JFileChooser chooser = new JFileChooser("c:/test/");
+			if (chooser.showOpenDialog(FileEditor.this) != JFileChooser.APPROVE_OPTION)
 				return;
 			File file = chooser.getSelectedFile();
 			if (file == null) {
@@ -171,7 +211,7 @@ public class SimpleEditor extends JFrame {
 				reader = new FileReader(file);
 				_textComponent.read(reader, null);
 			} catch (IOException ex) {
-				JOptionPane.showMessageDialog(SimpleEditor.this,
+				JOptionPane.showMessageDialog(FileEditor.this,
 						"File Not Found", "ERROR", JOptionPane.ERROR_MESSAGE);
 			} finally {
 				if (reader != null) {
@@ -192,8 +232,8 @@ public class SimpleEditor extends JFrame {
 		// Query user for a filename and attempt to open and write the text
 		// component's content to the file.
 		public void actionPerformed(ActionEvent ev) {
-			JFileChooser chooser = new JFileChooser();
-			if (chooser.showSaveDialog(SimpleEditor.this) != JFileChooser.APPROVE_OPTION)
+			JFileChooser chooser = new JFileChooser("c:/test/tweets.tsv");
+			if (chooser.showSaveDialog(FileEditor.this) != JFileChooser.APPROVE_OPTION)
 				return;
 			File file = chooser.getSelectedFile();
 			if (file == null)
@@ -204,7 +244,7 @@ public class SimpleEditor extends JFrame {
 				writer = new FileWriter(file);
 				_textComponent.write(writer);
 			} catch (IOException ex) {
-				JOptionPane.showMessageDialog(SimpleEditor.this,
+				JOptionPane.showMessageDialog(FileEditor.this,
 						"File Not Saved", "ERROR", JOptionPane.ERROR_MESSAGE);
 			} finally {
 				if (writer != null) {

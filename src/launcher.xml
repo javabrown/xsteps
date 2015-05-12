@@ -93,6 +93,8 @@
 		
 		<property name="eventGraph"><ref bean="xEventGraph" /></property>
 		
+		<property name="fileEditor"><ref bean="fileEditor"/> </property>
+		
 		<property name="xDesktop"><ref bean="xStepDesktop" /></property>
 	 
 		<property name="systemTray"><ref bean="systemTray" /></property>
@@ -143,6 +145,9 @@
 	<!-- Begin-@2: xEventGraph   -->
 	<bean id="xEventGraph" class="com.jbrown.ui.XEventGraph"/>
 	<!-- End-@2 -->
+	
+	<bean id="fileEditor" class="com.jbrown.ui.FileEditor"/>
+	
 	<!-- **************** XView Definition End  ********** -->
 	
 	
