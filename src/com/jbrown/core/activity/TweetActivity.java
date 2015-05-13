@@ -5,41 +5,73 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.jbrown.robo.KeysI;
 import com.jbrown.util.StepUtil;
+import com.jbrown.util.StringUtils;
 import com.jbrown.util.TSV;
 
 public class TweetActivity implements ActivityI {
 	private RowTweets _rowTweets;
-
-	public TweetActivity(String fileName) {
-		_rowTweets = new RowTweets(fileName);
+	private String[] _rawTweetMessages;
+	private String _fileName;
+	private int _index;
+	
+	public TweetActivity(String fileName, boolean generateCombination) {
+		_fileName = fileName;
+		reload();
 	}
 	
-	 
-//	
-//	public String getNextTweets(){
-//		if(_index >= _tsv.nRows()){
-//			_index = 0;
-//		}
-//		
-//		String tweets =  _tweets[_index] + " " + _trends[_index];
-//		_index++;
-//		
-//		return tweets;
-//	}
+	public void refresh(boolean generateCombination){
+		_rowTweets = new RowTweets(_fileName);
+		_rawTweetMessages  = _rowTweets.getAllTweets(generateCombination);
+	}
+
+ 
 	
-	public static void main(String[] arg) {
-	    String text = "To be or not to be, that is the question.";
-	    String newText = text.replace(' ', '/');     // Modify the string text
-	    
-	    RowTweets.makeCombination1("This is test. I am Test!!");
-	    //RowTweets.relpaceOneByOne("This is test. I am Test!!", '!', '-');
-	    System.out.println(newText);
-	  }
+	public String getNextTweets() {
+		if(_index >= _rawTweetMessages.length){
+			_index = 0;
+		}
+		
+		String tweets =  _rawTweetMessages[_index];
+		_index++;
+		
+		return tweets;
+	}
+	
+//	public static void main(String[] arg) {
+//	    String text = "To be or not to be, that is the question. Hello!!";
+//		char[][] chars = new char[][]{
+//				{',', ';'},
+//				{',', '.'},
+//				{',', '~'},
+//				
+//				{'-', ':'},
+//				{'-', '~'},
+//				
+//				{'.', ','},
+//				{'.', ';'},
+//				{'.', '~'},
+//				
+//				{'!', '.'},
+//				{'!', ';'},
+//				{'!', ','},
+//		};
+//	    
+//	    String newText = text.replace(' ', '/');     // Modify the string text
+//	    
+//	    String[] result = 
+//	    		StringUtils.buildStrMatrixWithReplacementCharSet(text, chars);
+//	    int i=0;
+//	    for(String s: result){
+//	    	System.out.printf("%s-%s\n", i++, s);
+//	    }
+//	   
+//	}
 	
 	@Override
 	public void prepareNextClipContent() {
-		String tweet = "";//getNextTweets();
+		String tweet = getNextTweets();
 		System.out.println(tweet);
 		StepUtil.setClipboardContents(tweet);
 	}
@@ -49,7 +81,7 @@ public class TweetActivity implements ActivityI {
 		private String[] _trends;
 		private int _index;
 		private TSV _tsv;
-		
+		 
 		private String _fileName;
 		
 		public RowTweets(String fileName) {
@@ -96,22 +128,40 @@ public class TweetActivity implements ActivityI {
 			}
 		}
 		
-		
-		public String getxTweet() {
-			List<String> combination = new ArrayList<String>();
-
-			String tweet = getTweet();
-			String trend = getTrend();
-
-			String msg = String.format("%s %s", tweet, trend);
-			String[] sombimations =  makeCombination(msg);
-			
-			if (msg.length() <= 140) {// max tweet length
-				combination.add(msg);
+		public boolean isLast(){
+			if(_index < 0 || _index >= _tsv.nRows()){
+				 return true;
 			}
-
-			incr();
-			return null;
+			
+			return false;
+		}
+		
+		public String[] getAllTweets(boolean generateCombination) {
+			List<String> results = new ArrayList<String>();
+			
+			while(isLast()){
+				String tweet = getTweet();
+				String trend = getTrend();
+				incr();
+	
+				if (generateCombination) {
+					String[] tweetCombimations = StringUtils
+							.buildStrMatrixWithReplacementCharSet(tweet,
+									KeysI.CHAR_REPLACEMENT_MATRIX);
+	
+					for (String t : tweetCombimations) {
+						String msg = String.format("%s %s", t, trend);
+	
+						if (msg.length() <= 140) {// max tweet length
+							results.add(msg);
+						}
+					}
+				} else {
+					results.add(String.format("%s %s", tweet, trend));
+				}
+			}
+			
+			return results.toArray(new String[0]);
 		}
 		
 		public List<String> relpaceOneByOne(String str, char from, char to) {
@@ -131,9 +181,11 @@ public class TweetActivity implements ActivityI {
 		
 		public String replaceCharAt(String s, int pos, char c) {
 		    return s.substring(0, pos) + c + s.substring(pos + 1);
-		  }
+		}
 		
 		public String[] makeCombination(String message) {
+		
+			
 			String[] set0 = new String[] { message };
 
 			List<String> set1 = relpaceOneByOne(message, ',', ';');
