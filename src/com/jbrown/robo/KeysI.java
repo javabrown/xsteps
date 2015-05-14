@@ -12,7 +12,7 @@ public interface KeysI {
 	String COMMAND_REPEAT_K = "Repeat";
 	String COMMAND_VERIFY_K = "Verify";
 	String COMMAND_RESET_K = "Reset";
-	String COMMAND_SMART_WORKER_POWER_SAVE_MODE_K = "Power-Save Mode";
+	String COMMAND_SMART_WORKER_POWER_SAVE_MODE_K =  "Power-Save Mode";
 	String COMMAND_EXIT_K = "Exit";
 	
 	String SHORTCUT_RECORD_K = "R";

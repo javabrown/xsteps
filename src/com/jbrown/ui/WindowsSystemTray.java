@@ -26,8 +26,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 
-import javax.swing.SwingUtilities;
-
 import org.springframework.util.StringUtils;
 
 import sun.security.jca.GetInstance;
