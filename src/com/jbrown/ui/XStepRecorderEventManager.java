@@ -8,7 +8,9 @@ import static com.jbrown.robo.KeysI.COMMAND_RESET_K;
 import static com.jbrown.robo.KeysI.COMMAND_SAVE_K;
 import static com.jbrown.robo.KeysI.COMMAND_STOP_RECORDING_K;
 import static com.jbrown.robo.KeysI.COMMAND_VERIFY_K;
+import static com.jbrown.robo.KeysI.COMMAND_SMART_WORKER_POWER_SAVE_MODE_K;
 
+import java.awt.CheckboxMenuItem;
 import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
@@ -71,6 +73,11 @@ public class XStepRecorderEventManager extends AbstractEventManager {
 		if (e.getActionCommand().equalsIgnoreCase(COMMAND_VERIFY_K)) {
 			_controller.save();
 		}
+		
+		if (e.getActionCommand().equalsIgnoreCase(COMMAND_SMART_WORKER_POWER_SAVE_MODE_K)) {
+			CheckboxMenuItem powerSaver = (CheckboxMenuItem) eventSource;
+			System.out.println(powerSaver.isEnabled());
+		}
 
 		if (e.getActionCommand().equalsIgnoreCase(COMMAND_EXIT_K)) {
 			System.exit(0);
@@ -103,6 +110,5 @@ public class XStepRecorderEventManager extends AbstractEventManager {
         if(name.equalsIgnoreCase(KeysI.CHECK_FAST_FORWARD_K)){
         	_controller.getAppDataObserver().getViewCriteria().setFastForward(isSelected);
         }
-		
 	}
 }
