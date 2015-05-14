@@ -16,19 +16,31 @@ public class TweetActivity implements ActivityI {
 	private String _fileName;
 	private int _index;
 	
-	public TweetActivity(String fileName, boolean generateCombination) {
+	public TweetActivity(String fileName) {
 		_fileName = fileName;
 		reload();
 	}
 	
-	public void refresh(boolean generateCombination){
+	public static void main(String[] args){
+		TweetActivity a = new TweetActivity("c:/test/tweets.tsv");
+		System.out.println(a._rawTweetMessages.length);
+		int i = 0;
+		for(String s : a._rawTweetMessages){a.prepareNextClipContent();
+			System.out.printf("%s - %s\n", i++, "");
+			
+		}
+		a.getNextTweets();
+	}
+	
+	public void reload(){
 		_rowTweets = new RowTweets(_fileName);
-		_rawTweetMessages  = _rowTweets.getAllTweets(generateCombination);
+		_rawTweetMessages  = _rowTweets.getAllTweets(true);
 	}
 
  
 	
 	public String getNextTweets() {
+		System.out.printf("total length=%s\n", _rawTweetMessages.length);
 		if(_index >= _rawTweetMessages.length){
 			_index = 0;
 		}
@@ -71,7 +83,7 @@ public class TweetActivity implements ActivityI {
 	
 	@Override
 	public void prepareNextClipContent() {
-		String tweet = getNextTweets();
+		String tweet = this.getNextTweets();
 		System.out.println(tweet);
 		StepUtil.setClipboardContents(tweet);
 	}
@@ -90,25 +102,17 @@ public class TweetActivity implements ActivityI {
 		}
 
 		public void refresh() {
-			TSV tsv = new TSV(_fileName);
-			_tweets = tsv.getColumn(0);
-			_trends = tsv.getColumn(1);
+			_tsv = new TSV(_fileName);
+			_tweets = _tsv.getColumn(0);
+			_trends = _tsv.getColumn(1);
 			_index = 0;
 		}
 
 		public String getTweet(){
-			if(_index < 0 || _index >= _tsv.nRows()){
-				_index = 0;
-			}
-			
 			return _tweets[_index];
 		}
 		
 		public String getTrend(){
-			if(_index >= _tsv.nRows()){
-				_index = 0;
-			}
-			
 			return _trends[_index];
 		}
 		
@@ -129,7 +133,7 @@ public class TweetActivity implements ActivityI {
 		}
 		
 		public boolean isLast(){
-			if(_index < 0 || _index >= _tsv.nRows()){
+			if(_index < 0 || _index >= (_tsv.nRows()-1)){
 				 return true;
 			}
 			
@@ -139,7 +143,7 @@ public class TweetActivity implements ActivityI {
 		public String[] getAllTweets(boolean generateCombination) {
 			List<String> results = new ArrayList<String>();
 			
-			while(isLast()){
+			while(!isLast()){
 				String tweet = getTweet();
 				String trend = getTrend();
 				incr();
@@ -245,11 +249,5 @@ public class TweetActivity implements ActivityI {
 //		public int getIndex() {
 //			return _index;
 //		}
-	}
-
-	@Override
-	public void reload() {
-		// TODO Auto-generated method stub
-		
 	}
 }

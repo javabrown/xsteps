@@ -41,7 +41,10 @@ public class StringUtils {
 		return set.toArray(new String[0]);
 	}
 	
- 
+	public static String replaceCharAt0(String s, int pos, char c) {
+		return s.substring(0, pos) + c + s.substring(pos + 1);
+	}
+	
 	public static String replaceCharAt(String s, int pos, char c) {
 		return s.substring(0, pos) + c + s.substring(pos + 1);
 	}
@@ -77,7 +80,7 @@ public class StringUtils {
 		if(str != null && str.trim().length() > 0){
 			while(str.indexOf((int)c) >= 0) {
 				int lookupIndex = str.indexOf((int)c);
-				str = replaceCharAt(str, lookupIndex, ' ');
+				str = replaceCharAt0(str, lookupIndex, ' ');
 				//System.out.println(str);
 				list.add(lookupIndex);
 			}
