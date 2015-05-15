@@ -32,6 +32,7 @@ import sun.security.jca.GetInstance;
 import sun.swing.SwingUtilities2;
 
 import com.jbrown.Main;
+import com.jbrown.util.SmartWorker;
 import com.sun.java.swing.SwingUtilities3;
 
 public class WindowsSystemTray {
@@ -246,73 +247,13 @@ public class WindowsSystemTray {
 
 		@Override
 		public void itemStateChanged(ItemEvent e) {
-			System.out.println("AutoSave is set " + _smartSaverMode.getState());
+			//System.out.println("AutoSave is set " + _smartSaverMode.getState());
 			if (!_smartSaverMode.getState()) {
 				new Thread(SmartWorker.getInstance()).start();
-				System.out.println("Thred started");
 			} else {
 				SmartWorker.getInstance().stop();
 			}
 
-		}
-	}
-}
-
-
-
-class SmartWorker implements Runnable {
-	private static Robot _robot;
-	private static boolean _isRunning = false;
-	private static SmartWorker _instance;
-	
-	public static SmartWorker getInstance() {
-		if (_instance == null) {
-			_instance = new SmartWorker();
-		}
-
-		return _instance;
-	}
-
-	private SmartWorker() {
-		try {
-			_robot = new Robot();
-		} catch (AWTException e) {
-			e.printStackTrace();
-		}
-
-		_isRunning = false;
-	}
-	
-//	public synchronized void start(){
-//		new Thread(SmartWorker.getInstance()).start();
-//	}
-
-	public synchronized void stop(){
-		_isRunning = false;
-	}
-	
-	private synchronized void moveNowhere() {
-		PointerInfo a = MouseInfo.getPointerInfo();
-		Point b = a.getLocation();
-		int x = (int) b.getX();
-		int y = (int) b.getY();
-		_robot.mouseMove(x + 1, y);
-		_robot.mouseMove(x, y);
-		//System.out.println("smart mouse moved");
-	}
-
-	@Override
-	public void run() {
-		_isRunning = true;
-		
-		while(_isRunning) {
-			moveNowhere();
-			
-			try {
-				Thread.sleep(200);
-			} catch (InterruptedException ex) {
-				ex.printStackTrace();
-			}
 		}
 	}
 }
