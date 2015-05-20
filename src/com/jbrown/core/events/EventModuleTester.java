@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.jbrown.core.activity.TweetActivity;
 import com.jbrown.observers.BrownObserverI;
 import com.jbrown.robo.XEventI;
 import com.jbrown.robo.XScenarioI;
@@ -83,7 +84,7 @@ public class EventModuleTester extends JFrame implements BrownObserverI, ActionL
 			
 			
 			if(r != null &&_xScenario.hasValidScenario()){
-				EventRepeater rp = new EventRepeater(_xScenario, null);
+				EventRepeater rp = new EventRepeater(_xScenario, new TweetActivity("c:/test/"));
 				try {
 					rp.trigger(r, 1, false);
 				} catch (InterruptedException e1) {

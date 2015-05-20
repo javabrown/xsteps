@@ -46,9 +46,8 @@ public abstract class BrownEvents extends Observable implements BrownEventsI {
 				flag ? "started" : "stopped");
 	}
 	
-	
 	void notifyListeners(XEventI event) {
-		if(_ignorableEventOnMe.isIgnorable()){
+		if(_ignorableEventOnMe.isIgnorable() && false){
 			System.out.println("This is ignorable event");
 			return;
 		}

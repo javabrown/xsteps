@@ -2,16 +2,16 @@ package com.jbrown.robo.impl;
 
 import java.util.Deque;
 
+import com.jbrown.core.events.BrownEventFactory;
 import com.jbrown.robo.XEventI;
 import com.jbrown.robo.XScenarioI;
 import com.jbrown.robo.XSystemEventScannerI;
 import com.jbrown.ui.XStepOperatorCommandWatch;
 
-public class XEventScanner extends XSystemEventScanner implements XSystemEventScannerI {
-	private XScenarioEntry _entry;
+public class XEventScanner extends XSystemEventScanner0 implements XSystemEventScannerI {
 	
-	public XEventScanner(XScenarioEntry entry) {
-		_entry = entry;
+	public XEventScanner(XScenarioI scenarioStorage) {
+		super(scenarioStorage);
 	}
 
 	@Override
@@ -28,11 +28,7 @@ public class XEventScanner extends XSystemEventScanner implements XSystemEventSc
 	public boolean isScanRunning(){
 		return super.isScanRunning();
 	}
-	
-	@Override
-	protected XScenarioI getXScenarioEntry() {
-		return _entry.getXScenarioEntry();
-	}
+	 
 	
 	public static interface XScenarioEntry {
 	    XScenarioI getXScenarioEntry();
@@ -45,6 +41,6 @@ public class XEventScanner extends XSystemEventScanner implements XSystemEventSc
 	
 	@Override
 	public XStepOperatorCommandWatch getXStepOperatorCommandWatch(){
-		return getOperatorCommand();
+		return null;//getOperatorCommand();
 	}
 }

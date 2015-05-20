@@ -12,7 +12,7 @@ public class XEventFinder implements XEventFinderI, XScenarioEntry {
 	
 	public XEventFinder(){
 		_xScenario = new XScenario();
-		_xScanner = new XEventScanner(this);
+		_xScanner = new XEventScanner(_xScenario);
 	}
 
 	@Override

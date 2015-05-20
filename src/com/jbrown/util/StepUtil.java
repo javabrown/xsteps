@@ -7,8 +7,11 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.commons.io.IOUtils;
+
+import com.jbrown.robo.KeysI;
 
 public class StepUtil {
 	public static int cantorP3(int a, int b, int c) {
@@ -91,5 +94,16 @@ public class StepUtil {
 		}
 
 		return result;
+	}
+	
+	public static boolean arrayComp(int[] a1, int[] a2) {
+		boolean match = a1.length == a2.length;
+		match &= Arrays.equals(a1, a2);
+
+		if (match) {
+			return true;
+		}
+
+		return false;
 	}
 }

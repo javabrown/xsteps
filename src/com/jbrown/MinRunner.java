@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import com.jbrown.core.activity.TweetActivity;
 import com.jbrown.robo.XEventI;
 import com.jbrown.robo.impl.BrownRobot;
 import com.jbrown.robo.impl.EventRecorder;
@@ -72,7 +73,7 @@ class WinRobo extends JFrame implements ActionListener {
 	
 	private void initializeScanner(){
 		 recorder = new EventRecorder();
-		 repeater = new EventRepeater(recorder._finder.getScenario(), null);
+		 repeater = new EventRepeater(recorder._finder.getScenario(), new TweetActivity("c:/test/tweets.tsv"));
 		 
 		 Thread t = new Thread(){
 			 @Override

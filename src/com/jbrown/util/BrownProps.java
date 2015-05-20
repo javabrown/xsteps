@@ -1,7 +1,5 @@
 package com.jbrown.util;
 
-import com.jbrown.robo.KeysI;
-
 import static com.jbrown.robo.KeysI.*;
 
 public class BrownProps {
