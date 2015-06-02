@@ -1,5 +1,5 @@
 package com.jbrown.robo.impl;
- 
+
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.Observable;
@@ -12,6 +12,7 @@ import com.jbrown.observers.LocalEventObserver;
 import com.jbrown.robo.KeysI;
 import com.jbrown.robo.XEventI;
 import com.jbrown.robo.XScenarioI;
+import com.jbrown.ui.XDialog;
 import com.jbrown.ui.XStepOperatorCommandWatch;
 
 import de.ksquared.system.keyboard.GlobalKeyListener;
@@ -26,45 +27,34 @@ public abstract class XSystemEventScanner0 {
 	private boolean _isScanRunning;
 	private Deque<XEventI> _liveXEventQueue;
 
-	// Ignorable local event
-	//private XStepLocalEventScanner _localEventScanner;
-	//private LocalEventObserver _localEventObserver;
-
-	// Operator command
-	//private XStepOperatorCommandWatch _operatorWatch;
-
-	
 	private BrownEventsI _brownEvents;
-	
+
 	public XSystemEventScanner0(XScenarioI scenarioStorage) {
 		_isScanRunning = false;
 		_liveXEventQueue = new ConcurrentLinkedDeque<XEventI>();
-		//_operatorWatch = new XStepOperatorCommandWatch();
+		_brownEvents = BrownEventFactory.getInstance()
+				.getAlternateEventHandler();
 
-		//_localEventScanner = new XStepLocalEventScanner();
-		//_localEventObserver = new LocalEventObserver();
-		//_localEventScanner.addObserver(_localEventObserver);
-		
-		_brownEvents = BrownEventFactory.getInstance().getAlternateEventHandler();
-		
 		_events = new EventRecorder0(scenarioStorage);
 	}
- 
 
 	void startListener() {
-		if(!_isScanRunning){
+		if (!_isScanRunning) {
 			_isScanRunning = true;
-			//_localEventScanner.start(); // start ignorable local event on xstep frame
 			_brownEvents.addEventObservable(_events);
 			_brownEvents.setEnable(true);
+			
+			XDialog.setTitle("XStep Recording On");
+			XDialog.show();
 		}
 	}
 
 	void stopListener() {
 		_brownEvents.setEnable(false);
 		_isScanRunning = false;
-		//_localEventScanner.stop();// stop ignorable local event on xstep frame
 		_brownEvents.removeEventObservable(_events);
+		XDialog.setTitle("XStep Recording Stopped");
+		XDialog.hide();
 	}
 
 	protected boolean isScanRunning() {
@@ -75,31 +65,20 @@ public abstract class XSystemEventScanner0 {
 		return _liveXEventQueue.poll();
 	}
 
-//	XStepOperatorCommandWatch getOperatorCommand() {
-//		return _operatorWatch;
-//	}
- 
-	
 	class EventRecorder0 implements BrownObserverI {
 		private XScenarioI _xScenario;
-		//private LocalEventObserver _localIgnorableEvent;
 
 		public EventRecorder0(XScenarioI xScenario) {
 			_xScenario = xScenario;
-			//_localIgnorableEvent = ignorableEvent;
 		}
 
 		private void addEvent(XEventI eventI) {
-			//if (_localIgnorableEvent.isLocalEvent()) {
-			//	System.out.println("Ignored Local Event/paused event Capture.");
-			//	return;
-			//}
-
 			_xScenario.addEvent(eventI);
 			_liveXEventQueue.add(eventI);
 			System.out.println("XScanner=" + eventI);
+			XDialog.setHeader(eventI.getEvent().name());
 		}
-		
+
 		public void update(Observable o, Object arg) {
 			if (arg instanceof XEventI) {
 				addEvent((XEventI) arg);
@@ -109,4 +88,3 @@ public abstract class XSystemEventScanner0 {
 		}
 	}
 }
-

@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import com.jbrown.core.activity.ActivityI;
 import com.jbrown.core.activity.TweetActivity;
 import com.jbrown.robo.XScenarioI;
+import com.jbrown.ui.XDialog;
 import com.jbrown.util.BrownLogger;
 
 public class EventRepeater {
@@ -23,6 +24,14 @@ public class EventRepeater {
 			throws InterruptedException {
 		_clipActivity.reload();
 		XEventSequence[] seqs = _xScenario.getEventSequence();
+		
+//		new Thread(new Runnable() {
+//			@Override
+//			public void run() {
+//				XDialog.show();
+//				System.out.println("Show Called....*****");
+//			}
+//		}).start();
 		
 		System.out.printf("\nMAX Repeat Scenario =%s Begin ", nRepeat);
 		
