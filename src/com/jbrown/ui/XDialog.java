@@ -26,37 +26,74 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class XDialog {
-	public static final void init(String title, String header, String body) {
-		TranslucentDialog.getDialog().setTitle(title);
-		TranslucentDialog.getDialog().setHeader(header);
-		TranslucentDialog.getDialog().setBody(body);
+public class XDialog implements Runnable {
+	public static boolean start() {
+		if (!_isRunning) {
+			new Thread(XDialog.getInstance()).start();
+			return true;
+		}
+
+		return false;
 	}
 	
-	public static final void setTitle(String title) {
-		TranslucentDialog.getDialog().setTitle(title);
+	public static void stop() {
+		_isRunning = false;
 	}
-
-	public static final void setHeader(String msgHeader) {
-		TranslucentDialog.getDialog().setHeader(msgHeader);
+	
+	public static void setTitle(String title){
+		_title = title;
 	}
-
-	public static final void setBody(String msgBody) {
-		TranslucentDialog.getDialog().setBody(msgBody);
+	
+	public static void setMessage(String message) {
+		_message = message;
 	}
-
-	public static final void show() {
-		TranslucentDialog.getDialog().start();
+	
+	private static XDialog getInstance(){
+		if(_instance == null){
+			_instance = new XDialog();
+		}
+		
+		return _instance;
 	}
+	
+	
+	@Override
+	public void run() {
+		_isRunning = true;
+		System.out.println("Dialog Thread Started!!");
+		_dialog.start();
+		
+		while (_isRunning) {
+			_dialog.setTitle(_title);
+			_dialog.setHeader(_message);
 
-	public static final void hide() {
-		TranslucentDialog.getDialog().stop();
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		_dialog.stop();
+		System.out.println("Dialog Thread Stoped!!");
+	}
+	
+	
+	private static boolean _isRunning = false;
+	private static String _title;
+	private static String _message;
+	private static XDialog _instance;
+	
+	private TranslucentDialog _dialog;
+	
+	private XDialog(){
+		_dialog = TranslucentDialog.getDialog();
 	}
 }
 
 class TranslucentDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
-
+	
 	private final JPanel _jp;
 	private final JLabel _header;
 	private final JLabel _body;
@@ -78,17 +115,37 @@ class TranslucentDialog extends JDialog {
 						TitledBorder.TOP, TitledBorder.CENTER));
 	}
 
-	public final void setHeader(String msgHeader) {
-		_header.setText(msgHeader);
+	public final void setHeader(final String msgHeader) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_header.setText(msgHeader);
+			}
+		});
+		//_header.setText(msgHeader);
 	}
 
-	public final void setBody(String msgBody) {
-		_body.setText(msgBody);
+	public synchronized final void setBody(final String msgBody) {
+		//_body.setText(msgBody);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_body.setText(msgBody);
+			}
+		});
 	}
 
 	public final void start() {
 		setVisible(true);
 		new Thread(_$watch).start();
+		
+//		SwingUtilities.invokeLater(new Runnable() {
+//			@Override
+//			public void run() {
+//				setVisible(true);
+//				new Thread(_$watch).start();
+//			}
+//		});
 	}
 
 	public final void stop() {
@@ -180,9 +237,17 @@ class TranslucentDialog extends JDialog {
 		public void run() {
 			while (_kontinue) {
 				try {
-					setBody(String.format("%s | %s", getMouseInfo(), getTime()));
+					
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							setBody(String.format("%s | %s", getMouseInfo(), getTime()));
+						}
+					});
+					
+					//setBody(String.format("%s | %s", getMouseInfo(), getTime()));
 					Thread.sleep(100);
-				} catch (InterruptedException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}

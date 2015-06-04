@@ -45,7 +45,7 @@ public abstract class XSystemEventScanner0 {
 			_brownEvents.setEnable(true);
 			
 			XDialog.setTitle("XStep Recording On");
-			XDialog.show();
+			XDialog.start();
 		}
 	}
 
@@ -54,7 +54,7 @@ public abstract class XSystemEventScanner0 {
 		_isScanRunning = false;
 		_brownEvents.removeEventObservable(_events);
 		XDialog.setTitle("XStep Recording Stopped");
-		XDialog.hide();
+		XDialog.stop();
 	}
 
 	protected boolean isScanRunning() {
@@ -76,7 +76,7 @@ public abstract class XSystemEventScanner0 {
 			_xScenario.addEvent(eventI);
 			_liveXEventQueue.add(eventI);
 			System.out.println("XScanner=" + eventI);
-			XDialog.setHeader(eventI.getEvent().name());
+			XDialog.setTitle(eventI.getEvent().name());
 		}
 
 		public void update(Observable o, Object arg) {

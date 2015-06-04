@@ -20,6 +20,7 @@ import com.jbrown.robo.impl.BrownRobot;
 import com.jbrown.robo.impl.EventE;
 import com.jbrown.robo.impl.EventRecorder;
 import com.jbrown.robo.impl.EventRepeater;
+import com.jbrown.ui.XDialog;
 
 public class XStepController extends Observable {
 	private EventRecorder _recorder;

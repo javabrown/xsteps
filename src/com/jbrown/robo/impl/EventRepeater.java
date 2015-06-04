@@ -11,41 +11,81 @@ import com.jbrown.util.BrownLogger;
 public class EventRepeater {
 	static Logger _logger = Logger.getLogger(EventRepeater.class);
 	
-	private XScenarioI _xScenario;
-	private ActivityI _clipActivity;
+	private final XScenarioI _xScenario;
+	private final ActivityI _clipActivity;
 	
 	public EventRepeater(XScenarioI xScenarioI, ActivityI clipActivity){
 		_xScenario = xScenarioI;
 		_clipActivity  = clipActivity;
 	}
 	
-	@SuppressWarnings("static-access")
+//	public void trigger(BrownRobot r, int nRepeat, boolean fastFarward)
+//			throws InterruptedException {
+//		_clipActivity.reload();
+//		XEventSequence[] seqs = _xScenario.getEventSequence();
+//		
+//		
+//		System.out.printf("\nMAX Repeat Scenario =%s Begin ", nRepeat);
+//		
+//		for (int i = 0; i < nRepeat; i++) {
+//			_clipActivity.prepareNextClipContent();
+//			
+//			for (XEventSequence seq : seqs) {
+//				new ScenarioRunner(seq, r).execute();
+//			}
+//			
+//			XDialog.setTitle(String.format("Scenario# %s done. ", i));
+//			System.out.printf("Scenario# %s done. ", i);
+//		}
+//		
+//		XDialog.stop();
+//		System.out.printf("\n**** [%s Scenario Repeat Finished !!] *****", nRepeat);
+//	}
+	
 	public void trigger(BrownRobot r, int nRepeat, boolean fastFarward)
 			throws InterruptedException {
-		_clipActivity.reload();
-		XEventSequence[] seqs = _xScenario.getEventSequence();
+		new Thread(new Perform(nRepeat, r)).start();
+	}
+	
+	class Perform implements Runnable {
+		int _nRepeat;
+		BrownRobot _robot;
 		
-//		new Thread(new Runnable() {
-//			@Override
-//			public void run() {
-//				XDialog.show();
-//				System.out.println("Show Called....*****");
-//			}
-//		}).start();
-		
-		System.out.printf("\nMAX Repeat Scenario =%s Begin ", nRepeat);
-		
-		for (int i = 0; i < nRepeat; i++) {
-			_clipActivity.prepareNextClipContent();
-			
-			for (XEventSequence seq : seqs) {
-				new ScenarioRunner(seq, r).execute();
-			}
-			
-			System.out.printf("Scenario# %s done. ", i);
+		public Perform(int nRepeat, BrownRobot robot){
+			_nRepeat = nRepeat;
+			_robot = robot;
 		}
 		
-		System.out.printf("\n**** [%s Scenario Repeat Finished !!] *****", nRepeat);
+		@Override
+		public void run() {
+			_clipActivity.reload();
+			XEventSequence[] seqs = _xScenario.getEventSequence();
+			
+			int i = 0;
+			System.out.printf("\nMAX Repeat Scenario =%s Begin ", _nRepeat);
+			XDialog.start();
+			
+			
+			for (; i < _nRepeat; i++) {
+				XDialog.setTitle(String.format("%s of %s Done ", i, _nRepeat));
+				
+				_clipActivity.prepareNextClipContent();
+				
+				for (XEventSequence seq : seqs) {
+					try {
+						new ScenarioRunner(seq, _robot).execute();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				XDialog.setTitle(String.format("Scenario# %s done. ", i));
+				System.out.printf("Scenario# %s done. ", i);
+			}
+			
+			XDialog.stop();
+			System.out.printf("\n**** [%s Scenario Repeat Finished !!] *****", _nRepeat);
+		}
 	}
 }
 
