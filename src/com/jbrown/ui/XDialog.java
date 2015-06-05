@@ -29,6 +29,12 @@ import javax.swing.border.TitledBorder;
 public class XDialog implements Runnable {
 	public static boolean start() {
 		if (!_isRunning) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			new Thread(XDialog.getInstance()).start();
 			return true;
 		}

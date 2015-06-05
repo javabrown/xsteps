@@ -10,7 +10,17 @@ public class XEventFinder implements XEventFinderI, XScenarioEntry {
 	private XScenarioI _xScenario;
 	private XEventScanner _xScanner;
 	
-	public XEventFinder(){
+	private static XEventFinder _instance;
+	
+	public static XEventFinder getInstance(){
+		if(_instance == null) {
+			_instance = new XEventFinder();
+		}
+		
+		return _instance;
+	}
+	
+	private XEventFinder(){
 		_xScenario = new XScenario();
 		_xScanner = new XEventScanner(_xScenario);
 	}

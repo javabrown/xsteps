@@ -20,6 +20,7 @@ import com.jbrown.robo.impl.BrownRobot;
 import com.jbrown.robo.impl.EventE;
 import com.jbrown.robo.impl.EventRecorder;
 import com.jbrown.robo.impl.EventRepeater;
+import com.jbrown.robo.impl.XStepLocalEventScanner;
 import com.jbrown.ui.XDialog;
 
 public class XStepController extends Observable {
@@ -87,6 +88,7 @@ public class XStepController extends Observable {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				_recorder.startRecording();
+				XStepLocalEventScanner.getInstance().start();
 			}
 		});
 	}
@@ -95,6 +97,7 @@ public class XStepController extends Observable {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				_recorder.stopRecording();
+				XStepLocalEventScanner.getInstance().stop();
 			}
 		});
 	}
@@ -103,6 +106,7 @@ public class XStepController extends Observable {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				_recorder.resetRecording();
+				XStepLocalEventScanner.getInstance().stop();
 			}
 		});
 	}

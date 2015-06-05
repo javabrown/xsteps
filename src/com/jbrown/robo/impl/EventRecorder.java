@@ -10,7 +10,7 @@ public class EventRecorder {
 	
 	
 	public EventRecorder(){
-		_finder = new XEventFinder();
+		_finder = XEventFinder.getInstance();
 	}
 	
 	public void startRecording(){
