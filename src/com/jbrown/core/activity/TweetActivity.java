@@ -1,9 +1,8 @@
 package com.jbrown.core.activity;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.concurrent.Callable;
 
 import com.jbrown.robo.KeysI;
 import com.jbrown.util.StepUtil;
@@ -19,11 +18,18 @@ public class TweetActivity implements ActivityI {
 	public TweetActivity(String fileName) {
 		_fileName = fileName;
 		reload();
+		
+		System.out.printf("Total Tweets: %s. Last Tweets: %s", _rawTweetMessages.length, 
+				_rawTweetMessages[_rawTweetMessages.length -1]);
+		
 	}
 	
 	public static void main(String[] args){
 		TweetActivity a = new TweetActivity("c:/test/tweets.tsv");
-		System.out.println(a._rawTweetMessages.length);
+		
+		System.out.printf("Total Tweets: %s", a._rawTweetMessages.length, 
+				a._rawTweetMessages[a._rawTweetMessages.length -1]);
+		
 		int i = 0;
 		for(String s : a._rawTweetMessages){a.prepareNextClipContent();
 			System.out.printf("%s - %s\n", i++, "");
@@ -40,7 +46,8 @@ public class TweetActivity implements ActivityI {
  
 	
 	public String getNextTweets() {
-		System.out.printf("total length=%s\n", _rawTweetMessages.length);
+		 
+		
 		if(_index >= _rawTweetMessages.length){
 			_index = 0;
 		}
@@ -141,6 +148,7 @@ public class TweetActivity implements ActivityI {
 		}
 		
 		public String[] getAllTweets(boolean generateCombination) {
+			System.out.printf("Total %s Tweets Loaded", _tsv.nRows());
 			List<String> results = new ArrayList<String>();
 			
 			while(!isLast()){
@@ -258,4 +266,6 @@ public class TweetActivity implements ActivityI {
 //			return _index;
 //		}
 	}
+
+	
 }
