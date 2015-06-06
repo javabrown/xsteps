@@ -183,7 +183,7 @@ class TranslucentDialog extends JDialog {
 		add(_jp);
 
 		if (gd.isWindowTranslucencySupported(TRANSLUCENT)) {
-			this.setOpacity(0.55f);
+			this.setOpacity(0.75f);
 		}
 
 		this.setupComponent();
