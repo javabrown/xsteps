@@ -7,12 +7,13 @@ import com.jbrown.core.activity.TweetActivity;
 import com.jbrown.robo.XScenarioI;
 import com.jbrown.ui.XDialog;
 import com.jbrown.util.BrownLogger;
+import com.jbrown.util.ResourceCaller;
 
 public class EventRepeater {
 	static Logger _logger = Logger.getLogger(EventRepeater.class);
 	
 	private final XScenarioI _xScenario;
-	private final ActivityI _clipActivity;
+	private ActivityI _clipActivity;
 	
 	public EventRepeater(XScenarioI xScenarioI, ActivityI clipActivity){
 		_xScenario = xScenarioI;
@@ -58,7 +59,9 @@ public class EventRepeater {
 		
 		@Override
 		public void run() {
-			_clipActivity.reload();
+			//_clipActivity.reload();
+			_clipActivity = ResourceCaller.getTweetActivity("c:/test/tweets.tsv");
+			
 			XEventSequence[] seqs = _xScenario.getEventSequence();
 			
 			int i = 0;
