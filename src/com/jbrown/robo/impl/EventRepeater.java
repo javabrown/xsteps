@@ -60,7 +60,7 @@ public class EventRepeater {
 		@Override
 		public void run() {
 			//_clipActivity.reload();
-			_clipActivity = ResourceCaller.getTweetActivity("c:/test/tweets.tsv");
+			_clipActivity = ResourceCaller.getTweetActivity("c:/test/tweets.tsv", true, 3);
 			
 			XEventSequence[] seqs = _xScenario.getEventSequence();
 			

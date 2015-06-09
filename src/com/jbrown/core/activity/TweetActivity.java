@@ -15,8 +15,16 @@ public class TweetActivity implements ActivityI {
 	private String _fileName;
 	private int _index;
 	
-	public TweetActivity(String fileName) {
+	private boolean _isGenerateCombination;
+	private int _maxGenerateCombinationCount;
+	
+	
+	public TweetActivity(String fileName,  
+			boolean isGenerateCombination, int maxGenerateCombinationCount) {
 		_fileName = fileName;
+		_isGenerateCombination = isGenerateCombination;
+		_maxGenerateCombinationCount = maxGenerateCombinationCount;
+		
 		reload();
 		
 		System.out.printf("Total Tweets: %s. Last Tweets: %s", _rawTweetMessages.length, 
@@ -25,7 +33,7 @@ public class TweetActivity implements ActivityI {
 	}
 	
 	public static void main(String[] args){
-		TweetActivity a = new TweetActivity("c:/test/tweets.tsv");
+		TweetActivity a = new TweetActivity("c:/test/tweets.tsv", true, 2);
 		
 		System.out.printf("Total Tweets: %s", a._rawTweetMessages.length, 
 				a._rawTweetMessages[a._rawTweetMessages.length -1]);
@@ -40,7 +48,8 @@ public class TweetActivity implements ActivityI {
 	
 	public void reload(){
 		_rowTweets = new RowTweets(_fileName);
-		_rawTweetMessages  = _rowTweets.getAllTweets(false);
+		_rawTweetMessages  = _rowTweets.getAllTweets(_isGenerateCombination, 
+				_maxGenerateCombinationCount);
 	}
 
  
@@ -147,7 +156,7 @@ public class TweetActivity implements ActivityI {
 			return false;
 		}
 		
-		public String[] getAllTweets(boolean generateCombination) {
+		public String[] getAllTweets(boolean generateCombination, int maxMixCombinationCount) {
 			System.out.printf("Total %s Tweets Loaded", _tsv.nRows());
 			List<String> results = new ArrayList<String>();
 			
@@ -168,12 +177,18 @@ public class TweetActivity implements ActivityI {
 					String[] tweetCombimations = StringUtils
 							.buildStrMatrixWithReplacementCharSet(tweet,
 									KeysI.CHAR_REPLACEMENT_MATRIX);
-	
+					int count = 0;
+					
 					for (String t : tweetCombimations) {
 						String msg = String.format("%s %s", t, trend);
 	
 						if (msg.length() <= 140) {// max tweet length
 							results.add(msg);
+							
+							if(count++ < maxMixCombinationCount){
+								results.add(String.format("%s %s", tweet, trend));
+								break;
+							}
 						}
 					}
 				} else {

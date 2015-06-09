@@ -73,7 +73,7 @@ class WinRobo extends JFrame implements ActionListener {
 	
 	private void initializeScanner(){
 		 recorder = new EventRecorder();
-		 repeater = new EventRepeater(recorder._finder.getScenario(), new TweetActivity("c:/test/tweets.tsv"));
+		 repeater = new EventRepeater(recorder._finder.getScenario(), new TweetActivity("c:/test/tweets.tsv", true, 2));
 		 
 		 Thread t = new Thread(){
 			 @Override

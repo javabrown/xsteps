@@ -11,8 +11,10 @@ import com.jbrown.core.activity.TweetActivity;
 public class ResourceCaller {
 	private static ExecutorService _executor = Executors.newFixedThreadPool(10);
 	
-	public static TweetActivity getTweetActivity(String fileName) {
-		Future<TweetActivity> future = _executor.submit(new TweetResourceCaller(fileName));
+	public static TweetActivity getTweetActivity(String fileName,
+			boolean isGenerateCombination, int maxGenerateCombinationCount) {
+		Future<TweetActivity> future = _executor.submit(new TweetResourceCaller(fileName,
+				isGenerateCombination, maxGenerateCombinationCount));
 		try {
 			return future.get();
 		} catch (InterruptedException | ExecutionException e) {
@@ -25,13 +27,19 @@ public class ResourceCaller {
 
 class TweetResourceCaller implements Callable<TweetActivity>{
 	private String _fileName;
+	private boolean _isGenerateCombination;
+	private int _maxGenerateCombinationCount;
 	
-	public TweetResourceCaller(String fileName){
+	public TweetResourceCaller(String fileName, 
+			boolean isGenerateCombination, int maxGenerateCombinationCount){
 		_fileName = fileName;
+		_isGenerateCombination = isGenerateCombination;
+		_maxGenerateCombinationCount = maxGenerateCombinationCount;
 	}
 	
 	@Override
 	public TweetActivity call() throws Exception {
-		return new TweetActivity(_fileName);
+		return new TweetActivity(_fileName, 
+				_isGenerateCombination, _maxGenerateCombinationCount);
 	}
 }

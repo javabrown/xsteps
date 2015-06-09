@@ -138,6 +138,8 @@
 		
 	<bean name="activity" class="com.jbrown.core.activity.TweetActivity">
 		<constructor-arg index="0" value="c:/test/tweets.tsv"/>
+		<constructor-arg index="1" value="true"/>
+		<constructor-arg index="2" value="3"/>
 	</bean>
 	<!-- End-@1 -->
 	
