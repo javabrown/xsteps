@@ -25,7 +25,7 @@ public interface KeysI {
 	
 	String CAPTION_STOP_RECORDING_K = "Stop Recording";
 	
-	int[] RECORDING_PAUSE_KEY_COMBINATION = new int[]{ 27, 27, 27};  //27 = Esc code
+	int[] RECORDING_PAUSE_KEY_COMBINATION = new int[]{ 112, 112, 112};  //112 = F1 code
 	
 	char[][] CHAR_REPLACEMENT_MATRIX = new char[][]{
 			{',', ';'},

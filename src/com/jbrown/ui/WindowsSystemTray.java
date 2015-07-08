@@ -42,8 +42,8 @@ public class WindowsSystemTray {
 	private TrayIcon _trayIcon;
 
 	public enum Status {
-		RECORDING_ON("Recording On", "/icons/brown-logo.png"), RECORDING_OFF(
-				"Recording Off", "/icons/brown-logo.png");
+		RECORDING_ON("Recording On", "/icons/brown-logo.png"), 
+		RECORDING_OFF("Recording Off", "/icons/brown-logo.png");
 
 		String _text;
 		String _imageIcon;

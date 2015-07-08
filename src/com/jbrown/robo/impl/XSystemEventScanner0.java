@@ -2,7 +2,9 @@ package com.jbrown.robo.impl;
 
 import java.util.Arrays;
 import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Observable;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 import com.jbrown.core.events.BrownEventFactory;
@@ -67,15 +69,28 @@ public abstract class XSystemEventScanner0 {
 
 	class EventRecorder0 implements BrownObserverI {
 		private XScenarioI _xScenario;
-
+		private XStepOperatorCommandWatch _commandWatch;
+		
 		public EventRecorder0(XScenarioI xScenario) {
 			_xScenario = xScenario;
+			_commandWatch = new XStepOperatorCommandWatch();
 		}
 
-		private void addEvent(XEventI eventI) {
+		private void addEvent(XEventI event) {
+			_commandWatch.addCommand(event);
+			
+			if(_commandWatch.isPauseCommand()){
+				XDialog.showMsg("Pause", "Pause Command Detected!!");
+			}
+			else {
+				addEvent0(event);
+			}
+		}
+		
+		private void addEvent0(XEventI eventI) {
 			_xScenario.addEvent(eventI);
 			_liveXEventQueue.add(eventI);
-			System.out.println("XScanner=" + eventI);
+			//System.out.println("XScanner=" + eventI);
 			XDialog.setTitle(eventI.getEvent().name());
 		}
 
@@ -87,4 +102,33 @@ public abstract class XSystemEventScanner0 {
 			}
 		}
 	}
+	
+
+//	class EventEntryPipe {
+//		private Queue<XEventI> _queue;
+//		private XStepOperatorCommandWatch _watch;
+//
+//		public EventEntryPipe() {
+//			_queue = new LinkedList<XEventI>();
+//		}
+//
+//		public void push(XEventI event) {
+//			_queue.add(event);
+//
+//			if (event instanceof XKeyEvent) {
+//				XKeyEvent key = (XKeyEvent) event;
+//				if (key.getEvent().typeOf(EventE.KEY_RELEASE)) {
+//					_watch.addCommand(key.getKeyCode());
+//				}
+//			}
+//		}
+//
+//		public XEventI poll() {
+//			return _queue.poll();
+//		}
+//
+//		public boolean isPauseCommand() {
+//			return _watch.isPauseCommand();
+//		}
+//	}
 }

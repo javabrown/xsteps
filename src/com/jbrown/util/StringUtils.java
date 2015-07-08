@@ -1,6 +1,8 @@
 package com.jbrown.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -123,5 +125,40 @@ public class StringUtils {
 		}
 
 		return str;
+	}
+	
+	public static boolean isEquals(String... stringArray) {
+		String s1 = null;
+
+		for (String s : stringArray) {
+			if (isEmpty(s)) {
+				return false;
+			}
+
+			if (s1 == null) {
+				s1 = s;
+			}
+
+			if (!s1.equals(s)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
+	public static <T extends Object> T[] arrayPush(T[] a, T e) {
+	    a  = Arrays.copyOf(a, a.length + 1);
+	    a[a.length - 1] = e;
+	    return a;
+	}
+	
+	public static void main(String[] args){
+		String[] names = new String[]{"Raja Khan"};
+		names = arrayPush(names, "S Yasmin");
+	   
+		for(String name : names){
+			System.out.printf("%s\n", name);
+		}
 	}
 }

@@ -54,6 +54,12 @@ public class XDialog implements Runnable {
 		_message = message;
 	}
 	
+	public static void showMsg(String title, String message){
+		_title = title;
+		_message = message;
+		
+	}
+	
 	private static XDialog getInstance(){
 		if(_instance == null){
 			_instance = new XDialog();
@@ -141,6 +147,10 @@ class TranslucentDialog extends JDialog {
 		});
 	}
 
+	public void setOpacity(int value){
+		this.setOpacity(0.75f);
+	}
+	
 	public final void start() {
 		setVisible(true);
 		new Thread(_$watch).start();
