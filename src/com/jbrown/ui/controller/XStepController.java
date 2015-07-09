@@ -126,10 +126,8 @@ public class XStepController extends Observable {
 				try {
 					_repeater.trigger(new BrownRobot(), nRepeat, fastFarward);
 				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (AWTException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
