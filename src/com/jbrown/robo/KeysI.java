@@ -25,7 +25,12 @@ public interface KeysI {
 	
 	String CAPTION_STOP_RECORDING_K = "Stop Recording";
 	
-	int[] RECORDING_PAUSE_KEY_COMBINATION = new int[]{ 112, 112, 112};  //112 = F1 code
+	int[] RECORDING_PAUSE_KEY_COMBINATION = new int[]{ 112 };  //112 = F1 code
+	
+	int RECORDING_RESUME_PAUSE_COMMAND_KEY = 27;
+	 
+	String RECORDING_PAUSED_LABEL_MSG = "<html>Press <FONT COLOR=BLUE>Esc</FONT> to resume recording</html>";
+	
 	
 	char[][] CHAR_REPLACEMENT_MATRIX = new char[][]{
 			{',', ';'},
@@ -48,4 +53,6 @@ public interface KeysI {
 			{';', ','},
 			{';', '~'},
 	};
+	
+	
 }

@@ -26,13 +26,19 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import com.jbrown.robo.KeysI;
+import com.jbrown.util.XStepCommandMode;
+
 public class XDialog implements Runnable {
+//	public static void main(String[] args){
+//		XDialog.showMsg("Test", "<html> <FONT COLOR=BLUE>Blue</FONT> Text</html>", true);
+//	}
+//	
 	public static boolean start() {
 		if (!_isRunning) {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			new Thread(XDialog.getInstance()).start();
@@ -54,10 +60,10 @@ public class XDialog implements Runnable {
 		_message = message;
 	}
 	
-	public static void showMsg(String title, String message){
+	public static void showMsg(String title, String message, boolean isCommandMode){
 		_title = title;
 		_message = message;
-		
+		_isCommandMode = isCommandMode;
 	}
 	
 	private static XDialog getInstance(){
@@ -78,7 +84,15 @@ public class XDialog implements Runnable {
 		while (_isRunning) {
 			_dialog.setTitle(_title);
 			_dialog.setHeader(_message);
-
+			
+			
+			if(_isCommandMode){
+				_dialog.setOpac(1f);
+			}
+			else{
+				_dialog.setOpac(0.75f);
+			}
+			
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException ex) {
@@ -94,6 +108,8 @@ public class XDialog implements Runnable {
 	private static boolean _isRunning = false;
 	private static String _title;
 	private static String _message;
+	private static boolean _isCommandMode = false;
+	
 	private static XDialog _instance;
 	
 	private TranslucentDialog _dialog;
@@ -147,8 +163,8 @@ class TranslucentDialog extends JDialog {
 		});
 	}
 
-	public void setOpacity(int value){
-		this.setOpacity(0.75f);
+	public void setOpac(float value){
+		this.setOpacity(value);
 	}
 	
 	public final void start() {
@@ -183,7 +199,7 @@ class TranslucentDialog extends JDialog {
 				.getLocalGraphicsEnvironment();
 		GraphicsDevice gd = ge.getDefaultScreenDevice();
 
-		setTitle("XStep Live");
+		setTitle(XStepCommandMode.RECORD.getDesc());
 
 		_$watch = new $Watch();
 		_jp = new JPanel();
