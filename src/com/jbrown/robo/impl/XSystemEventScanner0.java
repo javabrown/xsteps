@@ -16,6 +16,7 @@ import com.jbrown.robo.XEventI;
 import com.jbrown.robo.XScenarioI;
 import com.jbrown.ui.XDialog;
 import com.jbrown.ui.XStepOperatorCommandWatch;
+import com.jbrown.util.XStepCommandMode;
 
 import de.ksquared.system.keyboard.GlobalKeyListener;
 import de.ksquared.system.keyboard.KeyEvent;
@@ -46,7 +47,7 @@ public abstract class XSystemEventScanner0 {
 			_brownEvents.addEventObservable(_events);
 			_brownEvents.setEnable(true);
 			
-			XDialog.setTitle("XStep Recording On");
+			XDialog.setTitle(XStepCommandMode.RECORD.getDesc());
 			XDialog.start();
 		}
 	}
@@ -55,7 +56,7 @@ public abstract class XSystemEventScanner0 {
 		_brownEvents.setEnable(false);
 		_isScanRunning = false;
 		_brownEvents.removeEventObservable(_events);
-		XDialog.setTitle("XStep Recording Stopped");
+		XDialog.setTitle(XStepCommandMode.PAUSE.getDesc());
 		XDialog.stop();
 	}
 
@@ -80,7 +81,8 @@ public abstract class XSystemEventScanner0 {
 			_commandWatch.addCommand(event);
 			
 			if(_commandWatch.isPauseCommand()){
-				XDialog.showMsg("Pause", "Pause Command Detected!!");
+				XDialog.showMsg(XStepCommandMode.PAUSE.getDesc(),
+						KeysI.RECORDING_PAUSED_LABEL_MSG, true);
 			}
 			else {
 				addEvent0(event);
@@ -90,8 +92,8 @@ public abstract class XSystemEventScanner0 {
 		private void addEvent0(XEventI eventI) {
 			_xScenario.addEvent(eventI);
 			_liveXEventQueue.add(eventI);
-			//System.out.println("XScanner=" + eventI);
-			XDialog.setTitle(eventI.getEvent().name());
+			XDialog.showMsg(XStepCommandMode.RECORD.getDesc(), eventI.getEvent().name(),
+					false);
 		}
 
 		public void update(Observable o, Object arg) {
