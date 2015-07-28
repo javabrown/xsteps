@@ -249,7 +249,9 @@ public class WindowsSystemTray {
 		public void itemStateChanged(ItemEvent e) {
 			//System.out.println("AutoSave is set " + _smartSaverMode.getState());
 			if (!_smartSaverMode.getState()) {
-				new Thread(SmartWorker.getInstance()).start();
+				Thread t = new Thread(SmartWorker.getInstance());
+				t.setDaemon(true);
+				t.start();
 			} else {
 				SmartWorker.getInstance().stop();
 			}

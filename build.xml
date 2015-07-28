@@ -42,7 +42,7 @@
     </target>
 	
     <target name="run" depends="jar">
-        <java jar="build/jar/XStep.jar" fork="true"/>
+        <java jar="build/jar/XStep.jar" fork="true" spawn="true"/>
     </target>
 
 </project>
