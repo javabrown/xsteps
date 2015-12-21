@@ -1,4 +1,4 @@
-<project>
+<project  name="xstep" default="run" basedir=".">
 	  <property name="lib.dir" value="lib"/>
 	  <property name="files.dir" value="files"/>
  	  
